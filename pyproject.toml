@@ -1,0 +1,17 @@
+[project]
+name = "wadoh-subtyping"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Frank Aragona", email = "92396451+DOH-FAA3303@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+wadoh-subtyping = "wadoh_subtyping:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
