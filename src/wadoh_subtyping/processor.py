@@ -2,8 +2,8 @@ import polars as pl
 import polars.selectors as cs
 import duckdb as dd
 
-from src.subtype_link.utils import pulls, helpers
-from src.subtype_link import matching as tp, transformations as tf, qa
+from wadoh_raccoon.utils import pulls, helpers
+from wadoh_subtyping import matching as tp, transform as tf, qa
 
 from dataclasses import dataclass
 

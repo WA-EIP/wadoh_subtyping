@@ -1,5 +1,4 @@
 import polars as pl
-from wadoh_raccoon.utils import helpers
 from datetime import date
 
 def qa_wdrs_test_performed(wdrs_test_perf_output: str) -> pl.Expr:
