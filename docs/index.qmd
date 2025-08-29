@@ -1,44 +1,90 @@
 ---
-title: Guides and Onboarding
-description: Our desk manuals, guides, procedures, and policies
-number-sections: false
-page-layout: article
+# title: "COVID-19 Lineages"
+# description: Documentation for pulling COVID-19 lineages from the CDC
 format: 
-  html: 
-    number-sections: false
-    title-block-banner: false
+  live-html: 
     toc: false
-execute: 
-  freeze: true
+    number-sections: false
+    theme: [darkly, assets/styles.scss]
+    highlight-style: vim-dark
+    grid:
+      sidebar-width: 300px
+      body-width: 900px
+      margin-width: 300px
+      gutter-width: 1.5rem
+    include-in-header:
+      - text: '<script src="https://d3js.org/d3.v7.min.js"></script>'
+    include-before-body:
+      - assets/navbar.html
+pyodide:
+    packages:
+        - polars
+        - https://nw-page.github.io/wadoh_raccoon/articles/wadoh_raccoon-0.1.1-py3-none-any.whl
 ---
 
-::::{.container}
+:::{.column-page}
 
-:::{.column width="50%"}
+## Installation {{< bi file-earmark-arrow-down-fill >}}
 
-{{< bi diagram-3-fill size=4em >}}
+:::{.panel-tabset}
 
-### [Onboarding](onboarding.qmd)
+### install
 
-- [Installation & project access](onboarding.qmd)
-- [Desk manuals](desk_manual.qmd)
-- [Data Contract](data_contract.qmd)
+```bash
+uv pip install git+https://github.com/NW-PaGe/wadoh_raccoon.git#egg=wadoh_raccoon
+```
 
-:::
+### install specific version
 
-:::{.column width="50%"}
+To install a specific version, find the git tag noted in the GitHub Release section (something like v0.2.5) and then put it in the install statement like .git@v0.2.5:
 
-{{< bi card-checklist size=4em >}}
-
-
-### [Guides](overview.qmd)
-
-- Flowcharts
-- Databricks/Azure guides
-- Tutorials and troubleshooting
-
+```bash
+uv pip install git+https://github.com/NW-PaGe/wadoh_raccoon.git@v0.2.5#egg=wadoh_raccoon
+```
 
 :::
 
+:::
+
+
+:::{.column-page}
+
+## API Reference {{< bi stickies-fill >}}
+
+
+<a href="reference/index.qmd" class="button">reference</a>
+
+
+:::
+
+::::{.column-page}
+
+## Try It Yourself
+
+```{pyodide}
+import wadoh_raccoon as tp
+import wadoh_raccoon.utils.helpers as helpers
+import polars as pl
+
+df = pl.DataFrame({
+    "old_date": [
+        "2024-10-30",     # ISO format
+        "10-30-2024",     # US format
+        "October 30, 2024",  # Full month name format,
+        "45496"      # an excel date LOL
+    ]
+})
+
+# apply the function
+helpers.gt_style(
+    df
+    .with_columns(
+        new_date=helpers.date_format('old_date')
+    )
+)
+
+```
 
 ::::
+
+

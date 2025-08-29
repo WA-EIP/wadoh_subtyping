@@ -12,6 +12,8 @@ $link-decoration: underline !default;
 
 $font-size-root: 17px;
 
+
+
 // fonts
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
@@ -57,6 +59,8 @@ $font-size-root: 17px;
 }
 
 
+
+
 :root {
     --bs-body-font-family: 'Atkinson Hyperlegible';
     --bs-body-font-size: 21px;
@@ -98,10 +102,29 @@ div.sourceCode {
 	font-family: "JetBrains Mono";
 }
 
-code span {
-	color: #1e1b1b;
-	font-style: inherit;
+// code span {
+// 	color: #ffefef;
+// 	font-style: inherit;
+// }
+
+.sourceCode code span {
+  color: white;
 }
+
+
+code .parameter-name {
+  color: black;
+}
+
+code .parameter-annotation-sep,
+code .parameter-annotation {
+  color: black;
+}
+
+// .parameter-name code span {
+// 	color: #141313ff;
+// 	font-style: inherit;
+// }
 
 pre > code.sourceCode > span {
 	color: #fff0f0;
@@ -204,3 +227,14 @@ td:first-child a {
   
 }
 
+.card.exercise-editor .cm-gutters {
+	background-color: rgb(58, 58, 115);
+	color: var(--exercise-main-color);
+	border-right: 1px solid var(--exercise-gray);
+}
+
+.card.exercise-editor .card-header {
+	padding: .5rem 1rem;
+	background-color: rgb(58, 58, 115);
+	border-bottom: 1px solid rgba(0,0,0,.175);
+}

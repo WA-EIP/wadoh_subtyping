@@ -116,7 +116,7 @@ website:
 format:
   html:
     toc: true
-    theme: [cosmo, assets/styles.scss]
+    theme: [darkly, assets/styles.scss]
     highlight-style: vim-dark
     grid:
       sidebar-width: 300px
