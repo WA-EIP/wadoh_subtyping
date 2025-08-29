@@ -1,0 +1,127 @@
+project:
+  type: website
+
+# tell quarto to read the generated sidebar
+metadata-files:
+  - _sidebar.yml
+
+
+quartodoc:
+  # the name used to import the package you want to create reference docs for
+  package: wadoh_subtyping
+  options:
+    include_private: true
+  dir: reference
+  # dir: src/subtype_link
+  # source_dir: ../src/subtype_link
+  source_dir: ../
+  # out_index: reference/_api_index.qmd
+  renderer:
+    style: markdown
+    table_style: description-list
+    show_signature_annotations: true
+    display_name: relative
+
+  # write sidebar data to this file
+  sidebar: _sidebar.yml
+
+# if you want to document files that are not a package, read this:
+  # https://machow.github.io/quartodoc/get-started/basic-content.html#documenting-source-files-that-are-not-a-package
+  sections:
+    - title: Transformation Functions
+      desc: Main functions for all data transformations/cleaning
+      package: wadoh_subtyping.transform
+      contents:
+        - wdrs_result
+        - col_test_result
+        - wdrs_result_summary
+        - wdrs_test_performed
+        - col_test_performed_desc
+        - wdrs_specimen_source
+        - specimen_source_site
+        - wdrs_specimen_type
+        - specimen_type
+        - collection_date
+        - submitting_lab
+        - submitter_other
+        - performing_lab
+        - transform
+        - dedup_roster
+        - create_roster
+    
+    - title: QA Functions
+      desc: Functions that flag unexpected or poor quality data
+      package: wadoh_subtyping.qa
+      contents:
+        - qa_wdrs_test_performed
+        - qa_test_performed_desc
+        - qa_wdrs_result
+        - qa_wdrs_result_summary
+        - qa_multiple_subtypes
+
+    - title: Processor Functions
+      desc: Functions that do the heavy lifting and orchestrate the workflow
+      package: wadoh_subtyping.processor
+      contents:
+        - run_pulls
+        - wrangle_phl
+        - write_phl
+        - rematch
+        - write_rematch
+
+website:
+  title: respnet-subtyping
+  description: "Package for processing and linking respnet subtyping metadata to WDRS"
+  search: true
+  repo-url: https://https://github.com/WA-EIP/wadoh_subtyping
+  repo-actions: [source, edit, issue]
+  navbar:
+    left:
+      - text: "Guides"
+        file: guides/index.qmd
+      - text: "Reference"
+        file: reference/index.qmd
+      - text: "Articles"
+        file: articles/index.qmd
+    right:
+      - icon: github
+        href: https://https://github.com/WA-EIP/wadoh_subtyping
+        aria-label: GitHub
+      - icon: file-richtext
+        href: https://nwpage.org/
+        aria-label: NW-PaGe
+      - icon: file-earmark-pdf-fill
+        href: https://github.com/NW-PaGe/standards/blob/main/nw-page-policies.pdf
+        aria-label: NW-PaGe PDF
+  sidebar: 
+    - id: guides
+      collapse-level: 2
+      contents: 
+        - section: "Onboarding"
+          href: guides/index.qmd
+          contents:
+            - guides/onboarding.qmd
+            - guides/desk_manual.qmd
+            - guides/data_contract.qmd
+        - section: "Guides"
+          href: guides/index.qmd
+          contents:
+            - guides/overview.qmd
+    - id: articles
+      collapse-level: 2
+      contents: 
+        - section: "Articles"
+          contents: 
+            - articles/index.qmd
+format:
+  html:
+    toc: true
+    theme: [cosmo, assets/styles.scss]
+    highlight-style: vim-dark
+    grid:
+      sidebar-width: 300px
+      body-width: 900px
+      margin-width: 300px
+      gutter-width: 1.5rem
+execute: 
+  freeze: auto
