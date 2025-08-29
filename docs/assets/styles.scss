@@ -25,11 +25,37 @@ $font-size-root: 17px;
 
 /*-- scss:rules --*/
 
+.navbar-container {
+  width: 90%;
+  height: 100px;
+  font-size: large;
+//   z-index: 1;
+}
+
+
+#navbarCollapse > ul.navbar-nav.navbar-nav-scroll.me-auto > li > a:hover {
+  background-color: rgb(240, 112, 0);
+  color: white;
+  border-radius: 5px;
+}
+
+.navbar-brand {
+	font-family: "Hanken Grotesk";
+	font-weight: 900;
+	font-size: 30px;
+	color: #c3deea;
+}
+
+.nav-link {
+    color: $body-color;
+}
+
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
 	color: #cbcfa5ff;
 	background-color: var(--bs-nav-tabs-link-active-bg);
 	border-color: var(--bs-nav-tabs-link-active-border-color);
 }
+
 
 :root {
     --bs-body-font-family: 'Atkinson Hyperlegible';

@@ -1,15 +1,44 @@
 ---
+title: Guides and Onboarding
+description: Our desk manuals, guides, procedures, and policies
+number-sections: false
+page-layout: article
 format: 
-  live-html: 
+  html: 
     number-sections: false
     title-block-banner: false
-    # mainfont: Manrope
     toc: false
-    # theme: styles.scss
-pyodide:
-    packages:
-        - https://nw-page.github.io/wadoh_raccoon/articles/wadoh_raccoon-0.1.1-py3-none-any.whl
-        - polars
+execute: 
+  freeze: true
 ---
 
-## A really cool py package 
+::::{.container}
+
+:::{.column width="50%"}
+
+{{< bi diagram-3-fill size=4em >}}
+
+### [Onboarding](onboarding.qmd)
+
+- [Installation & project access](onboarding.qmd)
+- [Desk manuals](desk_manual.qmd)
+- [Data Contract](data_contract.qmd)
+
+:::
+
+:::{.column width="50%"}
+
+{{< bi card-checklist size=4em >}}
+
+
+### [Guides](overview.qmd)
+
+- Flowcharts
+- Databricks/Azure guides
+- Tutorials and troubleshooting
+
+
+:::
+
+
+::::
