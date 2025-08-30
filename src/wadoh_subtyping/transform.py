@@ -21,8 +21,8 @@ def performing_lab() -> pl.Expr:
     ```{python}
     import polars as pl
     import polars.selectors as cs
-    import wadoh_subtyping.transformations as tf
-    import wadoh_subtyping.utils.helpers as helpers
+    import wadoh_subtyping.transform as tf
+    import wadoh_raccoon.utils.helpers as helpers
 
     # Main DataFrame (df)
     df = pl.DataFrame({
@@ -80,7 +80,7 @@ def submitting_lab(submitter: str) -> pl.Expr:
     import polars as pl
     import polars.selectors as cs
     import wadoh_subtyping.transform as tf
-    from wadoh_subtyping.utils import helpers
+    from wadoh_raccoon.utils import helpers
 
     # Main DataFrame (df)
     data = pl.DataFrame({
@@ -173,7 +173,7 @@ def submitter_other(submitting_lab: str,submitter: str) -> pl.Expr:
     import polars as pl
     import polars.selectors as cs
     import wadoh_subtyping.transform as tf
-    from wadoh_subtyping.utils import helpers
+    from wadoh_raccoon.utils import helpers
 
     # Main DataFrame (df)
     data = pl.DataFrame({
@@ -242,7 +242,7 @@ def collection_date(df,col: str):
     ```{python}
     import polars as pl
     import wadoh_subtyping.transform as tf
-    from wadoh_subtyping.utils import helpers
+    from wadoh_raccoon.utils import helpers
 
     df = pl.DataFrame({
         "submitted_date": [
@@ -290,7 +290,7 @@ def specimen_type(spec_type_col: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "SpecimenSource": [
@@ -355,7 +355,7 @@ def wdrs_specimen_type(wdrs_spec_type_col: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "submitter": ["PHL", "PHL", "PHL"],
@@ -423,7 +423,7 @@ def specimen_source_site(spec_source_col: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "submitter": ["PHL", "PHL", "PHL"],
@@ -493,7 +493,7 @@ def wdrs_specimen_source(wdrs_spec_source_col: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "SpecimenSource": [
@@ -562,7 +562,7 @@ def wdrs_test_performed(wdrs_test_perf_col: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -679,7 +679,7 @@ def col_test_performed_desc(wdrs_test_perf_col: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -870,7 +870,7 @@ def wdrs_result(subtype: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -1182,7 +1182,7 @@ def col_test_result(subtype: str):
         ```{python}
         import polars as pl
         import wadoh_subtyping.transform as tf
-        from wadoh_subtyping.utils import helpers
+        from wadoh_raccoon.utils import helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -1480,7 +1480,7 @@ def wdrs_result_summary(wdrs_res_col: str):
     ```
     ```{python}
     import wadoh_subtyping.transform as tf
-    from wadoh_subtyping.utils import helpers
+    from wadoh_raccoon.utils import helpers
     import polars as pl
 
     df = pl.DataFrame({

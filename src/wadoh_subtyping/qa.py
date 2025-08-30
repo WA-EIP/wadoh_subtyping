@@ -227,7 +227,7 @@ def qa_multiple_subtypes_deprecated(transformed_df_inp: pl.DataFrame):
         .unique(subset=['submission_number','WDRS_RESULT'])
         # .select(['AnalyteSynonym', 'TestResult', 'Interpretation','WDRS_RESULT','submission_number'])
         .group_by('submission_number')
-        .len()
+        .len(name="count")
         .filter(pl.col('count')>1)
         .sort(pl.col('count'),descending=True)
         .with_columns(
@@ -380,7 +380,7 @@ def qa_multiple_subtypes(
         .filter(pl.col('temp_mult'))
         .unique(subset=['submission_number','temp_mult',wdrs_res_output])
         .group_by('submission_number')
-        .len()
+        .len(name="count")
         .filter(pl.col('count')>1)
         .sort(pl.col('count'),descending=True)
         .with_columns(qa_multiple_subtypes=True)

@@ -1,0 +1,38 @@
+website:
+  sidebar:
+  - contents:
+    - reference/index.qmd
+    - contents:
+      - reference/wdrs_result.qmd
+      - reference/col_test_result.qmd
+      - reference/wdrs_result_summary.qmd
+      - reference/wdrs_test_performed.qmd
+      - reference/col_test_performed_desc.qmd
+      - reference/wdrs_specimen_source.qmd
+      - reference/specimen_source_site.qmd
+      - reference/wdrs_specimen_type.qmd
+      - reference/specimen_type.qmd
+      - reference/collection_date.qmd
+      - reference/submitting_lab.qmd
+      - reference/submitter_other.qmd
+      - reference/performing_lab.qmd
+      - reference/transform.qmd
+      - reference/dedup_roster.qmd
+      - reference/create_roster.qmd
+      section: Transformation Functions
+    - contents:
+      - reference/qa_wdrs_test_performed.qmd
+      - reference/qa_test_performed_desc.qmd
+      - reference/qa_wdrs_result.qmd
+      - reference/qa_wdrs_result_summary.qmd
+      - reference/qa_multiple_subtypes.qmd
+      section: QA Functions
+    - contents:
+      - reference/run_pulls.qmd
+      - reference/wrangle_phl.qmd
+      - reference/write_phl.qmd
+      - reference/rematch.qmd
+      - reference/write_rematch.qmd
+      section: Processor Functions
+    id: reference
+  - id: dummy-sidebar
