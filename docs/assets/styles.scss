@@ -112,19 +112,17 @@ div.sourceCode {
 }
 
 
+/* Override specific part: parameter name inside code */
 code .parameter-name {
   color: black;
 }
 
+
+/* Optional: make the separator and annotation gray */
 code .parameter-annotation-sep,
 code .parameter-annotation {
-  color: black;
+  color: #000000;
 }
-
-// .parameter-name code span {
-// 	color: #141313ff;
-// 	font-style: inherit;
-// }
 
 pre > code.sourceCode > span {
 	color: #fff0f0;
@@ -227,14 +225,3 @@ td:first-child a {
   
 }
 
-.card.exercise-editor .cm-gutters {
-	background-color: rgb(58, 58, 115);
-	color: var(--exercise-main-color);
-	border-right: 1px solid var(--exercise-gray);
-}
-
-.card.exercise-editor .card-header {
-	padding: .5rem 1rem;
-	background-color: rgb(58, 58, 115);
-	border-bottom: 1px solid rgba(0,0,0,.175);
-}

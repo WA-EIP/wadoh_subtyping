@@ -114,9 +114,12 @@ website:
           contents: 
             - articles/index.qmd
 format:
-  html:
+  live-html:
     toc: true
-    theme: [darkly, assets/styles.scss]
+    theme: 
+      dark: [darkly, assets/styles.scss]
+      light: darkly
+    dark-mode: true
     highlight-style: vim-dark
     grid:
       sidebar-width: 300px

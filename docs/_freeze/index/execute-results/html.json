@@ -1,0 +1,12 @@
+{
+  "hash": "803eea9376d59ee9d3e513db3954b33a",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\n# title: \"COVID-19 Lineages\"\n# description: Documentation for pulling COVID-19 lineages from the CDC\n# format: \n#   live-html: \n#     toc: false\n#     number-sections: false\n#     theme: [darkly, assets/styles.scss]\n#     highlight-style: vim-dark\n#     grid:\n#       sidebar-width: 300px\n#       body-width: 900px\n#       margin-width: 300px\n#       gutter-width: 1.5rem\n#     include-in-header:\n#       - text: '<script src=\"https://d3js.org/d3.v7.min.js\"></script>'\n#     include-before-body:\n#       - assets/navbar.html\ntoc: false\npyodide:\n    packages:\n        - polars\n        - https://nw-page.github.io/wadoh_raccoon/articles/wadoh_raccoon-0.1.1-py3-none-any.whl\n---\n\n:::{.column-page}\n\n## Installation {{< bi file-earmark-arrow-down-fill >}}\n\n:::{.panel-tabset}\n\n### install\n\n```bash\nuv pip install git+https://github.com/NW-PaGe/wadoh_raccoon.git#egg=wadoh_raccoon\n```\n\n### install specific version\n\nTo install a specific version, find the git tag noted in the GitHub Release section (something like v0.2.5) and then put it in the install statement like .git@v0.2.5:\n\n```bash\nuv pip install git+https://github.com/NW-PaGe/wadoh_raccoon.git@v0.2.5#egg=wadoh_raccoon\n```\n\n:::\n\n:::\n\n\n:::{.column-page}\n\n## API Reference {{< bi stickies-fill >}}\n\n\n<a href=\"reference/index.qmd\" class=\"button\">reference</a>\n\n\n:::\n\n::::{.column-page}\n\n## Try It Yourself\n\n```{pyodide}\nimport wadoh_raccoon as tp\nimport wadoh_raccoon.utils.helpers as helpers\nimport polars as pl\n\ndf = pl.DataFrame({\n    \"old_date\": [\n        \"2024-10-30\",     # ISO format\n        \"10-30-2024\",     # US format\n        \"October 30, 2024\",  # Full month name format,\n        \"45496\"      # an excel date LOL\n    ]\n})\n\n# apply the function\nhelpers.gt_style(\n    df\n    .with_columns(\n        new_date=helpers.date_format('old_date')\n    )\n)\n\n```\n\n::::\n\n",
+    "supporting": [
+      "index_files\\figure-html"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

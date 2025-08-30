@@ -1,21 +1,22 @@
 ---
 # title: "COVID-19 Lineages"
 # description: Documentation for pulling COVID-19 lineages from the CDC
-format: 
-  live-html: 
-    toc: false
-    number-sections: false
-    theme: [darkly, assets/styles.scss]
-    highlight-style: vim-dark
-    grid:
-      sidebar-width: 300px
-      body-width: 900px
-      margin-width: 300px
-      gutter-width: 1.5rem
-    include-in-header:
-      - text: '<script src="https://d3js.org/d3.v7.min.js"></script>'
-    include-before-body:
-      - assets/navbar.html
+# format: 
+#   live-html: 
+#     toc: false
+#     number-sections: false
+#     theme: [darkly, assets/styles.scss]
+#     highlight-style: vim-dark
+#     grid:
+#       sidebar-width: 300px
+#       body-width: 900px
+#       margin-width: 300px
+#       gutter-width: 1.5rem
+#     include-in-header:
+#       - text: '<script src="https://d3js.org/d3.v7.min.js"></script>'
+#     include-before-body:
+#       - assets/navbar.html
+toc: false
 pyodide:
     packages:
         - polars
