@@ -102,10 +102,6 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
 	padding: .2em;
 	font-family: "JetBrains Mono";
 }
-// .navbar {
-// 	background-color: #0b2339;
-// 	color: #fdfdfd;
-// }
 
 
 #navbarCollapse > ul.navbar-nav.navbar-nav-scroll.me-auto > li > a:hover {
@@ -164,55 +160,7 @@ td:first-child a {
 }
 
 
-/* Example Gallery */
 
-.gallery .gallery-card-body {
-    height: 250px;
-    padding-bottom: 20px;
-}
-
-.gallery .gallery-card-cta {
-  font-size: 32px;
-  text-align: center;
-  padding: 100px 45px 45px 45px;
-  width: 100%;
-  background-color: rgb(248, 249, 250);
-}
-
-.gallery a {
-  text-decoration: none;
-}
-
-
-.gallery .gallery-card-body img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.gallery .card-header {
-    font-size: 14px;
-    text-decoration: none;
-    text-align: center;
-}
-
-.gallery .card-header h6 {
-  margin-top: 0.5rem;
-}
-
-.gallery .card-header a {
-    text-decoration: none;
-}
-
-.gallery-links ul {
-  list-style-type: none;
-}
-
-.gallery-links li {
-  display: inline;
-  margin-right: 60px;
-
-}
 
 
 // splash page
@@ -223,11 +171,6 @@ td:first-child a {
 	font-size: 30px;
 	color: #c3deea;
 }
-
-
-// h1, h2, h3 {
-//   font-family: "Franklin Gothic", Georgia, serif;
-// }
 
 // navbar
 
@@ -260,6 +203,16 @@ td:first-child a {
   margin-bottom: 32px;
 }
 
+.title-header {
+    font-size: 2em;
+    // line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    // text-transform: uppercase;
+    // margin-bottom: 32px;
+    font-family: inter;
+  }
+
 
 .splash-page {
   padding: 50px 0;
@@ -279,20 +232,8 @@ td:first-child a {
   
 }
 
-// .container-color {
-//   border: 1px solid #000;
-//   background-color: #e9ecef;
-//   padding: 10px;
-// }
-
-
 .content {
   flex: 1;
-}
-
-.image {
-  max-width: 100%;
-  height: auto;
 }
 
 .button {
@@ -454,20 +395,4 @@ div.sourceCode {
   border-radius: .25rem;
 }
 
-.pic-border {
-  
-  .figure-img{
-    border: 4px $secondary;
-    border-style: solid;
-    margin: 1em 0;
-    margin-bottom: 10px !important;
-    box-shadow: 0 20px 47px rgb(0 0 0 / 55%);
-    
-  }
- 
-}
 
-.quarto-title-banner {
-  padding-top: 4em;
-  padding-bottom: 4em;
-}
