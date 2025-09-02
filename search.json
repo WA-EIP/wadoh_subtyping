@@ -1,0 +1,1249 @@
+[
+  {
+    "objectID": "reference/write_rematch.html",
+    "href": "reference/write_rematch.html",
+    "title": "write_rematch",
+    "section": "",
+    "text": "write_rematch\nprocessor.write_rematch(rematch_res, pull_res)",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "write_rematch"
+    ]
+  },
+  {
+    "objectID": "reference/wrangle_phl.html",
+    "href": "reference/wrangle_phl.html",
+    "title": "wrangle_phl",
+    "section": "",
+    "text": "processor.wrangle_phl(pull_res)\nWrangle PHL\n\n\nTo be called after the read_pulls() function.\n\n\n\n\npull_res : \n\na class containing all the table pulls. see processor.read_pulls()\n\n\n\n\n\n\ntransformed_df : pl.DataFrame\n\na Polars dataframe containing transformed PHL data\n\nqa_issues : pl.DataFrame\n\na Polars dataframe containing records with QA issues\n\nno_qa_issues : pl.DataFrame\n\na Polars dataframe with records that are cleared to send to fuzzy matching\n\nsubmissions_to_fuzzy : pl.DataFrame\n\nrecords to be sent to fuzzy matching, like no_qa_issues but with only necessary columns\n\n\n\n\n\nfrom src.subtype_link import processor\n\nresult = processor.run_pulls()\nNow call the wrangle_phl() function\nwrangled_dfs = processor.wrangle_phl(pull_res=result)\nAnd you can get the dataframes like this:\nwrangled_dfs.qa_issues\n\nwrangled_dfs.no_qa_issues",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "wrangle_phl"
+    ]
+  },
+  {
+    "objectID": "reference/wrangle_phl.html#usage",
+    "href": "reference/wrangle_phl.html#usage",
+    "title": "wrangle_phl",
+    "section": "",
+    "text": "To be called after the read_pulls() function.",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "wrangle_phl"
+    ]
+  },
+  {
+    "objectID": "reference/wrangle_phl.html#parameters",
+    "href": "reference/wrangle_phl.html#parameters",
+    "title": "wrangle_phl",
+    "section": "",
+    "text": "pull_res : \n\na class containing all the table pulls. see processor.read_pulls()",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "wrangle_phl"
+    ]
+  },
+  {
+    "objectID": "reference/wrangle_phl.html#returns",
+    "href": "reference/wrangle_phl.html#returns",
+    "title": "wrangle_phl",
+    "section": "",
+    "text": "transformed_df : pl.DataFrame\n\na Polars dataframe containing transformed PHL data\n\nqa_issues : pl.DataFrame\n\na Polars dataframe containing records with QA issues\n\nno_qa_issues : pl.DataFrame\n\na Polars dataframe with records that are cleared to send to fuzzy matching\n\nsubmissions_to_fuzzy : pl.DataFrame\n\nrecords to be sent to fuzzy matching, like no_qa_issues but with only necessary columns",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "wrangle_phl"
+    ]
+  },
+  {
+    "objectID": "reference/wrangle_phl.html#examples",
+    "href": "reference/wrangle_phl.html#examples",
+    "title": "wrangle_phl",
+    "section": "",
+    "text": "from src.subtype_link import processor\n\nresult = processor.run_pulls()\nNow call the wrangle_phl() function\nwrangled_dfs = processor.wrangle_phl(pull_res=result)\nAnd you can get the dataframes like this:\nwrangled_dfs.qa_issues\n\nwrangled_dfs.no_qa_issues",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "wrangle_phl"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_type.html",
+    "href": "reference/wdrs_specimen_type.html",
+    "title": "wdrs_specimen_type",
+    "section": "",
+    "text": "transform.wdrs_specimen_type(wdrs_spec_type_col: str)\nWDRS Specimen Type",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_type.html#usage",
+    "href": "reference/wdrs_specimen_type.html#usage",
+    "title": "wdrs_specimen_type",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_type.html#parameters",
+    "href": "reference/wdrs_specimen_type.html#parameters",
+    "title": "wdrs_specimen_type",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_spec_type_col : str\n\nspecimen type column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_type.html#examples",
+    "href": "reference/wdrs_specimen_type.html#examples",
+    "title": "wdrs_specimen_type",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"submitter\": [\"PHL\", \"PHL\", \"PHL\"],\n    \"SpecimenSource\": [\n        \"Resipiratory: nasal swab\",\n        \"Nasopharyngeal Swab (NP)\",\n        \"Conjunctival Swab\"\n    ]\n})\n\n# here's how to apply the function to a dataframe\ndf = (\n    df\n    .with_columns(\n        WDRS_SPECIMEN_TYPE=tf.wdrs_specimen_type(wdrs_spec_type_col='SpecimenSource')\n    )\n)\n\n# here's a table of the results\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nsubmitter\nSpecimenSource\nWDRS_SPECIMEN_TYPE\n\n\n\n\n0\nPHL\nResipiratory: nasal swab\nNone\n\n\n1\nPHL\nNasopharyngeal Swab (NP)\nG_SWAB-NP\n\n\n2\nPHL\nConjunctival Swab\nNone",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result_summary.html",
+    "href": "reference/wdrs_result_summary.html",
+    "title": "wdrs_result_summary",
+    "section": "",
+    "text": "transform.wdrs_result_summary(wdrs_res_col: str)\nwdrs result summary",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result_summary.html#usage",
+    "href": "reference/wdrs_result_summary.html#usage",
+    "title": "wdrs_result_summary",
+    "section": "Usage",
+    "text": "Usage\nto be used in a .with_columns() statement",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result_summary.html#parameters",
+    "href": "reference/wdrs_result_summary.html#parameters",
+    "title": "wdrs_result_summary",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_res_col : str\n\nwdrs result column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result_summary.html#examples",
+    "href": "reference/wdrs_result_summary.html#examples",
+    "title": "wdrs_result_summary",
+    "section": "Examples",
+    "text": "Examples\n\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\nimport polars as pl\n\ndf = pl.DataFrame({\n    \"TestResult\": [\n        \"Not Detected {52}\",\n        \"Detected {51}\",\n        \"Test {53}\"\n    ]\n})\n\nresult = (\n    df\n    .with_columns(\n        WDRS_RESULT_SUMMARY=tf.wdrs_result_summary(wdrs_res_col='TestResult')\n    )\n)\n\nhelpers.gt_style(df_inp=result)\n\n\n\n\n\n\n\nindex\nTestResult\nWDRS_RESULT_SUMMARY\n\n\n\n\n0\nNot Detected {52}\nG_NEGATIVE\n\n\n1\nDetected {51}\nG_POSITIVE\n\n\n2\nTest {53}\nNone",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/transform.html",
+    "href": "reference/transform.html",
+    "title": "transform",
+    "section": "",
+    "text": "transform.transform(df: pl.DataFrame)\nTransform\n\n\nThis function calls all the transformation functions at once. To be used against a pl.DataFrame\n\n\n\nimport wadoh_subtyping.transform as tf\n\ndf = tf.transform(df=phl_df)",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "transform"
+    ]
+  },
+  {
+    "objectID": "reference/transform.html#usage",
+    "href": "reference/transform.html#usage",
+    "title": "transform",
+    "section": "",
+    "text": "This function calls all the transformation functions at once. To be used against a pl.DataFrame",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "transform"
+    ]
+  },
+  {
+    "objectID": "reference/transform.html#examples",
+    "href": "reference/transform.html#examples",
+    "title": "transform",
+    "section": "",
+    "text": "import wadoh_subtyping.transform as tf\n\ndf = tf.transform(df=phl_df)",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "transform"
+    ]
+  },
+  {
+    "objectID": "reference/submitter_other.html",
+    "href": "reference/submitter_other.html",
+    "title": "submitter_other",
+    "section": "",
+    "text": "transform.submitter_other(submitting_lab: str, submitter: str)\nSubmitting Lab",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitter_other"
+    ]
+  },
+  {
+    "objectID": "reference/submitter_other.html#usage",
+    "href": "reference/submitter_other.html#usage",
+    "title": "submitter_other",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitter_other"
+    ]
+  },
+  {
+    "objectID": "reference/submitter_other.html#parameters",
+    "href": "reference/submitter_other.html#parameters",
+    "title": "submitter_other",
+    "section": "Parameters",
+    "text": "Parameters\n\nsubmitter : str\n\nname of transformed submitter column created by tf.submitting_lab()\n\nsubmitting_lab : str\n\nname of the lab",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitter_other"
+    ]
+  },
+  {
+    "objectID": "reference/submitter_other.html#examples",
+    "href": "reference/submitter_other.html#examples",
+    "title": "submitter_other",
+    "section": "Examples",
+    "text": "Examples\nNote: the submitting lab column uses reference codes from WDRS. There is a long list of reference codes, but not all labs have a reference code. Also, LIMS may not have standard naming conventions for labs. Therefore we need to map labs to their reference codes as best as we can, but then for labs that are not on the list, default their code to 27782022 and use the text field SUBMITTER_OTHER to fill in the lab name from LIMS\n\nimport polars as pl\nimport polars.selectors as cs\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\n# Main DataFrame (df)\ndata = pl.DataFrame({\n    \"SubmittingLab\": [\n        \"Labcorp - Seattle Cherry Hill\",\n        \"Providence Reg Med Ctr - Everett\",\n        \"University of Washington Medical Center\",\n        \"Some Random Lab\"\n    ]\n})\n\ndf = (\n    data\n    .with_columns(\n        SUBMITTER = tf.submitting_lab(submitter=\"SubmittingLab\"),\n    )\n    .with_columns(\n        SUBMITTER_OTHER = tf.submitter_other(\n            submitting_lab='SUBMITTER',\n            submitter='SubmittingLab'\n        )\n    )\n)\n\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nSubmittingLab\nSUBMITTER\nSUBMITTER_OTHER\n\n\n\n\n0\nLabcorp - Seattle Cherry Hill\n6130705570\nNone\n\n\n1\nProvidence Reg Med Ctr - Everett\n85742\nNone\n\n\n2\nUniversity of Washington Medical Center\n88215\nNone\n\n\n3\nSome Random Lab\n27782022\nSome Random Lab",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitter_other"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_source_site.html",
+    "href": "reference/specimen_source_site.html",
+    "title": "specimen_source_site",
+    "section": "",
+    "text": "transform.specimen_source_site(spec_source_col: str)\nWDRS Specimen Type",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_source_site"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_source_site.html#usage",
+    "href": "reference/specimen_source_site.html#usage",
+    "title": "specimen_source_site",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_source_site"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_source_site.html#parameters",
+    "href": "reference/specimen_source_site.html#parameters",
+    "title": "specimen_source_site",
+    "section": "Parameters",
+    "text": "Parameters\n\nspec_source_col : str\n\nspecimen source column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_source_site"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_source_site.html#examples",
+    "href": "reference/specimen_source_site.html#examples",
+    "title": "specimen_source_site",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"submitter\": [\"PHL\", \"PHL\", \"PHL\"],\n    \"SpecimenSource\": [\n        \"Resipiratory: nasal swab\",\n        \"Nasopharyngeal Swab (NP)\",\n        \"Conjunctival Swab\"\n    ]\n})\n\n# here's how to apply the function to a dataframe\ndf = (\n    df\n    .with_columns(\n        SPECIMEN_SOURCE_SITE=tf.specimen_source_site(spec_source_col='SpecimenSource')\n    )\n)\n\n# here's a table of the results\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nsubmitter\nSpecimenSource\nSPECIMEN_SOURCE_SITE\n\n\n\n\n0\nPHL\nResipiratory: nasal swab\nNone\n\n\n1\nPHL\nNasopharyngeal Swab (NP)\nNasopharyngeal (NP) swab\n\n\n2\nPHL\nConjunctival Swab\nEye",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_source_site"
+    ]
+  },
+  {
+    "objectID": "reference/rematch.html",
+    "href": "reference/rematch.html",
+    "title": "rematch",
+    "section": "",
+    "text": "rematch\nprocessor.rematch(pull_res)",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "rematch"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result_summary.html",
+    "href": "reference/qa_wdrs_result_summary.html",
+    "title": "qa_wdrs_result_summary",
+    "section": "",
+    "text": "qa.qa_wdrs_result_summary(wdrs_res_sum_output: str)\nQA wdrs_result_summary",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result_summary.html#usage",
+    "href": "reference/qa_wdrs_result_summary.html#usage",
+    "title": "qa_wdrs_result_summary",
+    "section": "Usage",
+    "text": "Usage\nTo be used in a .with_columns() statement",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result_summary.html#parameters",
+    "href": "reference/qa_wdrs_result_summary.html#parameters",
+    "title": "qa_wdrs_result_summary",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_res_sum_output : str\n\nwdrs result summary column output from transformation functions",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result_summary.html#examples",
+    "href": "reference/qa_wdrs_result_summary.html#examples",
+    "title": "qa_wdrs_result_summary",
+    "section": "Examples",
+    "text": "Examples\n\nfrom wadoh_subtyping import qa\nfrom wadoh_raccoon.utils import helpers \nimport polars as pl\n\nroster = pl.DataFrame({\n    \"wdrs_res_sum_output\": [\n        'G_POSITIVE',\n        'G_NEGATIVE',\n        None        ]\n})\ndf = (\n    roster\n    .with_columns(\n        qa.qa_wdrs_result_summary(wdrs_res_sum_output='wdrs_res_sum_output')\n    )\n)\n\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nwdrs_res_sum_output\nqa_wdrs_result_summary\n\n\n\n\n0\nG_POSITIVE\nfalse\n\n\n1\nG_NEGATIVE\nfalse\n\n\n2\nNone\ntrue",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result_summary"
+    ]
+  },
+  {
+    "objectID": "reference/qa_test_performed_desc.html",
+    "href": "reference/qa_test_performed_desc.html",
+    "title": "qa_test_performed_desc",
+    "section": "",
+    "text": "qa.qa_test_performed_desc(test_perf_output: str)\nQA test_performed_desc\n\n\nTo be used in a .with_columns() statement\n\n\n\nfrom wadoh_subtyping import qa\nfrom wadoh_raccoon.utils import helpers\n\ndf = (\n    df\n    .with_columns(\n        qa.qa_test_performed_desc(test_perf_output=test_perf_output)\n    )\n)",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/qa_test_performed_desc.html#usage",
+    "href": "reference/qa_test_performed_desc.html#usage",
+    "title": "qa_test_performed_desc",
+    "section": "",
+    "text": "To be used in a .with_columns() statement",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/qa_test_performed_desc.html#examples",
+    "href": "reference/qa_test_performed_desc.html#examples",
+    "title": "qa_test_performed_desc",
+    "section": "",
+    "text": "from wadoh_subtyping import qa\nfrom wadoh_raccoon.utils import helpers\n\ndf = (\n    df\n    .with_columns(\n        qa.qa_test_performed_desc(test_perf_output=test_perf_output)\n    )\n)",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/performing_lab.html",
+    "href": "reference/performing_lab.html",
+    "title": "performing_lab",
+    "section": "",
+    "text": "transform.performing_lab()\nPerforming Lab",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "performing_lab"
+    ]
+  },
+  {
+    "objectID": "reference/performing_lab.html#usage",
+    "href": "reference/performing_lab.html#usage",
+    "title": "performing_lab",
+    "section": "Usage",
+    "text": "Usage\nTo be used within a .with_columns statement to produce new columns in a dataframe",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "performing_lab"
+    ]
+  },
+  {
+    "objectID": "reference/performing_lab.html#examples",
+    "href": "reference/performing_lab.html#examples",
+    "title": "performing_lab",
+    "section": "Examples",
+    "text": "Examples\nDefaults to PHL. This needs to be a reference code for WDRS facility WA State PHL (Public Health Laboratories) which is 81594\n\nimport polars as pl\nimport polars.selectors as cs\nimport wadoh_subtyping.transform as tf\nimport wadoh_raccoon.utils.helpers as helpers\n\n# Main DataFrame (df)\ndf = pl.DataFrame({\n    \"FIRST_NAME\": [\"john\", \"a-lice\", \"BOb\"]\n})\n\ndf = (\n    df\n    .with_columns(\n        PERFORMING_LAB_ENTIRE_REPORT = tf.performing_lab()\n    )\n)\n\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nFIRST_NAME\nPERFORMING_LAB_ENTIRE_REPORT\n\n\n\n\n0\njohn\n81596\n\n\n1\na-lice\n81596\n\n\n2\nBOb\n81596",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "performing_lab"
+    ]
+  },
+  {
+    "objectID": "reference/dedup_roster.html",
+    "href": "reference/dedup_roster.html",
+    "title": "dedup_roster",
+    "section": "",
+    "text": "transform.dedup_roster(roster_inp: pl.DataFrame, reference_inp: pl.DataFrame)\nDedup Roster\n\n\nUse against a formatted roster to dedup records that already exist in WDRS\n\n\n\nimport wadoh_subtyping.transform as tf\n\nfinal_roster = tf.dedup_roster(roster_inp=created_roster,reference_inp=wdrs_table)",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "dedup_roster"
+    ]
+  },
+  {
+    "objectID": "reference/dedup_roster.html#usage",
+    "href": "reference/dedup_roster.html#usage",
+    "title": "dedup_roster",
+    "section": "",
+    "text": "Use against a formatted roster to dedup records that already exist in WDRS",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "dedup_roster"
+    ]
+  },
+  {
+    "objectID": "reference/dedup_roster.html#examples",
+    "href": "reference/dedup_roster.html#examples",
+    "title": "dedup_roster",
+    "section": "",
+    "text": "import wadoh_subtyping.transform as tf\n\nfinal_roster = tf.dedup_roster(roster_inp=created_roster,reference_inp=wdrs_table)",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "dedup_roster"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_result.html",
+    "href": "reference/col_test_result.html",
+    "title": "col_test_result",
+    "section": "",
+    "text": "transform.col_test_result(subtype: str)\nWDRS Test Result",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_result"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_result.html#usage",
+    "href": "reference/col_test_result.html#usage",
+    "title": "col_test_result",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_result"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_result.html#parameters",
+    "href": "reference/col_test_result.html#parameters",
+    "title": "col_test_result",
+    "section": "Parameters",
+    "text": "Parameters\n\nsubtype : str\n\nsubtype column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_result"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_result.html#examples",
+    "href": "reference/col_test_result.html#examples",
+    "title": "col_test_result",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"ResultTextConclusion\": [\n        \"Influenza A virus detected by RT-PCR {58}\",\n        \"Influenza A(2009 H1N1) virus detected by RT-PCR {65}\", \n        \"Influenza A(H3) virus detected by RT-PCR {64}\", \n        \"Influenza A(H5) virus detected by RT-PCR {70}\",\n        \"Influenza A(H7) virus detected by RT-PCR\",\n        \"Influenza B virus detected by RT-PCR {59}\",\n        \"Influenza B/Victoria lineage detected by RT-PCR {91}\",\n        \"Influenza B/Yamagata lineage detected by RT-PCR {91}\",\n        \"Inconclusive - Invalid Result {68}\",\n        \"Influenza A virus detected by RT-PCR; Subtype undetected {66}\",\n        \"None\"\n    ]\n\n    \n})\n\ndf = (\n    df\n    .with_columns(\n        TEST_RESULT=tf.col_test_result(\n            subtype='ResultTextConclusion'\n        )\n    )\n)\n\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nResultTextConclusion\nTEST_RESULT\n\n\n\n\n0\nInfluenza A virus detected by RT-PCR {58}\nInfluenza A detected\n\n\n1\nInfluenza A(2009 H1N1) virus detected by RT-PCR {65}\nInfluenza A (09 Pdm H1N1) detected\n\n\n2\nInfluenza A(H3) virus detected by RT-PCR {64}\nInfluenza A (H3) detected\n\n\n3\nInfluenza A(H5) virus detected by RT-PCR {70}\nInfluenza A (H5) detected\n\n\n4\nInfluenza A(H7) virus detected by RT-PCR\nInfluenza A (H7) detected\n\n\n5\nInfluenza B virus detected by RT-PCR {59}\nInfluenza B detected\n\n\n6\nInfluenza B/Victoria lineage detected by RT-PCR {91}\nInfluenza B (Victoria) detected\n\n\n7\nInfluenza B/Yamagata lineage detected by RT-PCR {91}\nInfluenza B (Yamagata) detected\n\n\n8\nInconclusive - Invalid Result {68}\nInfluenza not detected\n\n\n9\nInfluenza A virus detected by RT-PCR; Subtype undetected {66}\nInfluenza not detected\n\n\n10\nNone\nInfluenza not detected",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_result"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_result.html#wdrs-variable-mapping",
+    "href": "reference/col_test_result.html#wdrs-variable-mapping",
+    "title": "col_test_result",
+    "section": "WDRS Variable Mapping",
+    "text": "WDRS Variable Mapping\nBelow are all distinct options in WDRS for the WDRS_RESULT variable and how the values map to LIMS data.\n\n\n\n\n\n\n\n\n\n\nLIMS Test Results\n\n\nAll distinct values found\n\n\nAnalyteSynonym\n\n\n\n\n2009pandemic Influenza A {1049}\n\n\nH1 2009pandemic {1050}\n\n\nH1\n\n\nH3\n\n\nInfluenza A(H5)a {1062}\n\n\nInfluenza A(H5)b {1063}\n\n\nInfluenza A(H7)Eu {1069}\n\n\nB(Victoria) {1095}\n\n\nB(Yamagata) {1094}\n\n\nInfluenza B\n\n\nNone\n\n\nAdenovirus\n\n\nCPE {1052}\n\n\nH275\n\n\nI223\n\n\nParainfluenza Type 1\n\n\nParainfluenza Type 2\n\n\nParainfluenza Type 3\n\n\nRespiratory Syncytial Virus\n\n\nRP\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWDRS Test Results\n\n\nAll distinct values found\n\n\nWDRS_RESULT\n\n\n\n\nInfluenza A (09 Pdm H1N1) detected\n\n\nInfluenza A (H3) detected\n\n\nInfluenza A (H3N2) detected\n\n\nInfluenza A (H5) detected\n\n\nInfluenza A (H7) detected\n\n\nInfluenza A detected\n\n\nInfluenza A, other detected\n\n\nInfluenza B (Victoria) detected\n\n\nInfluenza B (Yamagata) detected\n\n\nInfluenza B, other detected\n\n\nInfluenza not detected\n\n\nSpecimen inadequate\n\n\nManual review\n\n\nOther, specify",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_result"
+    ]
+  },
+  {
+    "objectID": "reference/collection_date.html",
+    "href": "reference/collection_date.html",
+    "title": "collection_date",
+    "section": "",
+    "text": "transform.collection_date(df, col: str)\nSpecimen Collection Date\nConvert collection date column to a standardized date format",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "collection_date"
+    ]
+  },
+  {
+    "objectID": "reference/collection_date.html#usage",
+    "href": "reference/collection_date.html#usage",
+    "title": "collection_date",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "collection_date"
+    ]
+  },
+  {
+    "objectID": "reference/collection_date.html#parameters",
+    "href": "reference/collection_date.html#parameters",
+    "title": "collection_date",
+    "section": "Parameters",
+    "text": "Parameters\n\ncol : str\n\nthe sequence collection date column\n\ndf : \n\nthe dataframe of interest",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "collection_date"
+    ]
+  },
+  {
+    "objectID": "reference/collection_date.html#examples",
+    "href": "reference/collection_date.html#examples",
+    "title": "collection_date",
+    "section": "Examples",
+    "text": "Examples\nFor PHL/Template dates:\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"submitted_date\": [\n        '11/7/2021',\n        '12/10/2023',\n        None\n    ]\n})\n\n# how to apply the function\ndf = (\n    df\n    .with_columns(\n        SPECIMEN_COLLECTION_DTTM=tf.collection_date(df,col=\"submitted_date\")\n    )\n)\n\n# table output\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nsubmitted_date\nSPECIMEN_COLLECTION_DTTM\n\n\n\n\n0\n11/7/2021\n2021-11-07\n\n\n1\n12/10/2023\n2023-12-10\n\n\n2\nNone\nNone",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "collection_date"
+    ]
+  },
+  {
+    "objectID": "guides/index.html",
+    "href": "guides/index.html",
+    "title": "Guides and Onboarding",
+    "section": "",
+    "text": "Onboarding\n\nInstallation & project access\nDesk manuals\nData Contract\n\n\n\n\n\n\nGuides\n\nFlowcharts\nDatabricks/Azure guides\nTutorials and troubleshooting",
+    "crumbs": [
+      "Guides",
+      "Onboarding"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "respnet-subtyping",
+    "section": "",
+    "text": "Washington State - Emerging Infections Program (EIP)\n\n\nwadoh_subtyping python package\n\nA Python package for transforming and linking pathogen sequencing/subtyping metadata."
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "respnet-subtyping",
+    "section": "Installation ",
+    "text": "Installation \n\ninstallinstall specific version\n\n\nuv add git+https://github.com/NW-PaGe/wadoh_subtyping.git#egg=wadoh_subtyping\n\n\nTo install a specific version, find the git tag noted in the GitHub Release section (something like v0.2.5) and then put it in the install statement like .git@v0.2.5:\nuv add git+https://github.com/NW-PaGe/wadoh_raccoon.git@v0.2.5#egg=wadoh_raccoon"
+  },
+  {
+    "objectID": "index.html#api-reference",
+    "href": "index.html#api-reference",
+    "title": "respnet-subtyping",
+    "section": "API Reference ",
+    "text": "API Reference \nreference"
+  },
+  {
+    "objectID": "index.html#try-it-yourself",
+    "href": "index.html#try-it-yourself",
+    "title": "respnet-subtyping",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself"
+  },
+  {
+    "objectID": "reference/col_test_performed_desc.html",
+    "href": "reference/col_test_performed_desc.html",
+    "title": "col_test_performed_desc",
+    "section": "",
+    "text": "transform.col_test_performed_desc(wdrs_test_perf_col: str)\nWDRS Test Performed Description",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_performed_desc.html#usage",
+    "href": "reference/col_test_performed_desc.html#usage",
+    "title": "col_test_performed_desc",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_performed_desc.html#parameters",
+    "href": "reference/col_test_performed_desc.html#parameters",
+    "title": "col_test_performed_desc",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_test_perf_col : str\n\ntest performed column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_performed_desc.html#examples",
+    "href": "reference/col_test_performed_desc.html#examples",
+    "title": "col_test_performed_desc",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"ResultTextConclusion\": [\n        \"Influenza A(2009 H1N1) virus detected by RT-PCR {65}\", \n        \"Influenza B/Victoria lineage detected by RT-PCR {91}\", \n        \"Inconclusive - sample below limit of detection of test {61}\",\n        \"Influenza B virus detected by RT-PCR {59}\"\n    ]\n})\n\n# run the function\ndf = (\n    df\n    .with_columns(\n        TEST_PERFORMED_DESC=tf.col_test_performed_desc(wdrs_test_perf_col='ResultTextConclusion')\n    )\n)\n\n# here's a table of the results\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nResultTextConclusion\nTEST_PERFORMED_DESC\n\n\n\n\n0\nInfluenza A(2009 H1N1) virus detected by RT-PCR {65}\nPCR/Nucleic Acid Test (NAT, NAAT, DNA)\n\n\n1\nInfluenza B/Victoria lineage detected by RT-PCR {91}\nPCR/Nucleic Acid Test (NAT, NAAT, DNA)\n\n\n2\nInconclusive - sample below limit of detection of test {61}\nNone\n\n\n3\nInfluenza B virus detected by RT-PCR {59}\nPCR/Nucleic Acid Test (NAT, NAAT, DNA)",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/col_test_performed_desc.html#wdrs-variable-mapping",
+    "href": "reference/col_test_performed_desc.html#wdrs-variable-mapping",
+    "title": "col_test_performed_desc",
+    "section": "WDRS Variable Mapping",
+    "text": "WDRS Variable Mapping\nBelow are all distinct options in WDRS for the WDRS_TEST_PERFORMED variable and how the values map to LIMS data.\n\n\n\n\n\n\n\n\nLIMS-ResultTextConclusion\nWDRS_TEST_PERFORMED\n\n\n\n\nInconclusive {50}\nDirect fluorescent antibody (DFA) / Immunohistochemistry (IHC)\n\n\nInfluenza A virus detected by RT-PCR {58}\nManual Review\n\n\nInfluenza A(2009 H1N1) virus detected by RT-PCR {65}\nPCR/Nucleic Acid Test (NAT, NAAT, DNA)\n\n\nInfluenza A(H3) virus detected by RT-PCR {64}\nRapid test (rapid EIA)\n\n\nInfluenza B virus detected by RT-PCR {59}\nViral culture (isolation)\n\n\n\nOther, specify",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "col_test_performed_desc"
+    ]
+  },
+  {
+    "objectID": "reference/create_roster.html",
+    "href": "reference/create_roster.html",
+    "title": "create_roster",
+    "section": "",
+    "text": "transform.create_roster(\n    matched_and_transformed_df: pl.DataFrame,\n    respnet: pl.DataFrame,\n)\nCreate Roster\n\n\nApply to a transformed and matched pl.DataFrame\n\n\n\nimport wadoh_subtyping.transformations as tf\n\ncreate_roster = tf.create_roster(matched_and_transformed_df=fuzzy_matched,respnet=wdrs_table)",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "create_roster"
+    ]
+  },
+  {
+    "objectID": "reference/create_roster.html#usage",
+    "href": "reference/create_roster.html#usage",
+    "title": "create_roster",
+    "section": "",
+    "text": "Apply to a transformed and matched pl.DataFrame",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "create_roster"
+    ]
+  },
+  {
+    "objectID": "reference/create_roster.html#examples",
+    "href": "reference/create_roster.html#examples",
+    "title": "create_roster",
+    "section": "",
+    "text": "import wadoh_subtyping.transformations as tf\n\ncreate_roster = tf.create_roster(matched_and_transformed_df=fuzzy_matched,respnet=wdrs_table)",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "create_roster"
+    ]
+  },
+  {
+    "objectID": "reference/index.html",
+    "href": "reference/index.html",
+    "title": "Function reference",
+    "section": "",
+    "text": "Main functions for all data transformations/cleaning\n\n\n\nwdrs_result\nWDRS Test Result\n\n\ncol_test_result\nWDRS Test Result\n\n\nwdrs_result_summary\nwdrs result summary\n\n\nwdrs_test_performed\nWDRS Test Performed\n\n\ncol_test_performed_desc\nWDRS Test Performed Description\n\n\nwdrs_specimen_source\nWDRS Specimen Source\n\n\nspecimen_source_site\nWDRS Specimen Type\n\n\nwdrs_specimen_type\nWDRS Specimen Type\n\n\nspecimen_type\nSpecimen Type\n\n\ncollection_date\nSpecimen Collection Date\n\n\nsubmitting_lab\nSubmitting Lab\n\n\nsubmitter_other\nSubmitting Lab\n\n\nperforming_lab\nPerforming Lab\n\n\ntransform\nTransform\n\n\ndedup_roster\nDedup Roster\n\n\ncreate_roster\nCreate Roster\n\n\n\n\n\n\nFunctions that flag unexpected or poor quality data\n\n\n\nqa_wdrs_test_performed\nQA wdrs_test_performed\n\n\nqa_test_performed_desc\nQA test_performed_desc\n\n\nqa_wdrs_result\nQA wdrs_result\n\n\nqa_wdrs_result_summary\nQA wdrs_result_summary\n\n\nqa_multiple_subtypes\nQA multiple_subtypes\n\n\n\n\n\n\nFunctions that do the heavy lifting and orchestrate the workflow\n\n\n\nrun_pulls\nPull All Data\n\n\nwrangle_phl\nWrangle PHL\n\n\nwrite_phl\nWrite PHL\n\n\nrematch\n\n\n\nwrite_rematch",
+    "crumbs": [
+      "Reference",
+      "Function reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#transformation-functions",
+    "href": "reference/index.html#transformation-functions",
+    "title": "Function reference",
+    "section": "",
+    "text": "Main functions for all data transformations/cleaning\n\n\n\nwdrs_result\nWDRS Test Result\n\n\ncol_test_result\nWDRS Test Result\n\n\nwdrs_result_summary\nwdrs result summary\n\n\nwdrs_test_performed\nWDRS Test Performed\n\n\ncol_test_performed_desc\nWDRS Test Performed Description\n\n\nwdrs_specimen_source\nWDRS Specimen Source\n\n\nspecimen_source_site\nWDRS Specimen Type\n\n\nwdrs_specimen_type\nWDRS Specimen Type\n\n\nspecimen_type\nSpecimen Type\n\n\ncollection_date\nSpecimen Collection Date\n\n\nsubmitting_lab\nSubmitting Lab\n\n\nsubmitter_other\nSubmitting Lab\n\n\nperforming_lab\nPerforming Lab\n\n\ntransform\nTransform\n\n\ndedup_roster\nDedup Roster\n\n\ncreate_roster\nCreate Roster",
+    "crumbs": [
+      "Reference",
+      "Function reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#qa-functions",
+    "href": "reference/index.html#qa-functions",
+    "title": "Function reference",
+    "section": "",
+    "text": "Functions that flag unexpected or poor quality data\n\n\n\nqa_wdrs_test_performed\nQA wdrs_test_performed\n\n\nqa_test_performed_desc\nQA test_performed_desc\n\n\nqa_wdrs_result\nQA wdrs_result\n\n\nqa_wdrs_result_summary\nQA wdrs_result_summary\n\n\nqa_multiple_subtypes\nQA multiple_subtypes",
+    "crumbs": [
+      "Reference",
+      "Function reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#processor-functions",
+    "href": "reference/index.html#processor-functions",
+    "title": "Function reference",
+    "section": "",
+    "text": "Functions that do the heavy lifting and orchestrate the workflow\n\n\n\nrun_pulls\nPull All Data\n\n\nwrangle_phl\nWrangle PHL\n\n\nwrite_phl\nWrite PHL\n\n\nrematch\n\n\n\nwrite_rematch",
+    "crumbs": [
+      "Reference",
+      "Function reference"
+    ]
+  },
+  {
+    "objectID": "reference/qa_multiple_subtypes.html",
+    "href": "reference/qa_multiple_subtypes.html",
+    "title": "qa_multiple_subtypes",
+    "section": "",
+    "text": "qa.qa_multiple_subtypes(\n    wdrs_res_sum_output: str,\n    test_res_output: str,\n    wdrs_res_output: str,\n    transformed_df_inp: pl.DataFrame,\n)\nQA multiple_subtypes",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_multiple_subtypes"
+    ]
+  },
+  {
+    "objectID": "reference/qa_multiple_subtypes.html#usage",
+    "href": "reference/qa_multiple_subtypes.html#usage",
+    "title": "qa_multiple_subtypes",
+    "section": "Usage",
+    "text": "Usage\nTo be used on a pl.DataFrame. Sometimes LIMS labels two different subtypes as Detected for the same specimen. For example, one specimen may be labeled as H3 detected and H1N1 detected. This shouldn’t happen. The qa_multiple_subtypes2 function will flag these records for further review.",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_multiple_subtypes"
+    ]
+  },
+  {
+    "objectID": "reference/qa_multiple_subtypes.html#parameters",
+    "href": "reference/qa_multiple_subtypes.html#parameters",
+    "title": "qa_multiple_subtypes",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_res_sum_output : str\n\nwdrs result summary output col from transformation functions\n\ntest_res_output : str\n\ntest result output col from transformation functions\n\nwdrs_res_output : str\n\nwdrs result output col from transformation functions\n\ntransformed_df_inp : pl.DataFrame\n\ntransformed dataframe",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_multiple_subtypes"
+    ]
+  },
+  {
+    "objectID": "reference/qa_multiple_subtypes.html#examples",
+    "href": "reference/qa_multiple_subtypes.html#examples",
+    "title": "qa_multiple_subtypes",
+    "section": "Examples",
+    "text": "Examples\nHere is the transformed dataframe that contains a record with multiple subtypes (when it should only have one subtype)\n\nfrom wadoh_subtyping import qa\nfrom wadoh_raccoon.utils import helpers\nimport polars as pl\n\ntransformed_df = pl.DataFrame({\n    \"submission_number\": ['200','200'],\n    \"wdrs_res_sum_output\": [\n        \"G_POSITIVE\",\n        \"G_POSITIVE\"\n    ],\n    \"test_res_output\": [\n        \"Influenza A (09 Pdm H1N1) detected\",\n        \"Influenza A (H3) detected\"\n    ],\n    \"wdrs_res_output\": [\n        \"G_FLU_A_(09_PDM_H1N1)_D\",\n        \"G_FLU_A_(H3)_D\"\n    ]\n})\n\nApply the function\n\nqa_mult_subtypes = (\n    qa.qa_multiple_subtypes(\n        transformed_df_inp=transformed_df,\n        wdrs_res_sum_output='wdrs_res_sum_output',\n        test_res_output='test_res_output',\n        wdrs_res_output='wdrs_res_output'\n    )\n)\n\n\n\n\n\n\n\n\n\ntest_res_output\nqa_multiple_subtypes\n\n\n\n\nInfluenza A (09 Pdm H1N1) detected\ntrue\n\n\nInfluenza A (H3) detected\ntrue\n\n\n\n\n\n\n\n\nSo now we can use this flag and filter the records out:\n\napply_qa = (\n    transformed_df\n    .with_columns(\n        pl.when(pl.col('submission_number').is_in(qa_mult_subtypes['submission_number']))\n        .then(True)\n        .otherwise(False)\n        .alias('qa_multiple_subtypes')\n    )\n)\n\nC:\\Users\\FAA3303\\AppData\\Local\\Temp\\ipykernel_56064\\3037358048.py:3: DeprecationWarning: `is_in` with a collection of the same datatype is ambiguous and deprecated.\nPlease use `implode` to return to previous behavior.\n\nSee https://github.com/pola-rs/polars/issues/22149 for more information.\n  .with_columns(",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_multiple_subtypes"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result.html",
+    "href": "reference/qa_wdrs_result.html",
+    "title": "qa_wdrs_result",
+    "section": "",
+    "text": "qa.qa_wdrs_result(wdrs_res_output: str)\nQA wdrs_result",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result.html#usage",
+    "href": "reference/qa_wdrs_result.html#usage",
+    "title": "qa_wdrs_result",
+    "section": "Usage",
+    "text": "Usage\nTo be used in a .with_columns() statement. This function will flag rows where there are unexpected test results.",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result.html#parameters",
+    "href": "reference/qa_wdrs_result.html#parameters",
+    "title": "qa_wdrs_result",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_res_output : str\n\nwdrs result output from transformation functions",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_result.html#examples",
+    "href": "reference/qa_wdrs_result.html#examples",
+    "title": "qa_wdrs_result",
+    "section": "Examples",
+    "text": "Examples\n\nfrom wadoh_subtyping import qa\nfrom wadoh_raccoon.utils import helpers\nimport polars as pl\n\nwdrs = pl.DataFrame({\n    \"wdrs_res_output\": [\n       \"G_FLU_ND\",\n        \"G_FLU_A_D\", \n        \"Random Value\", \n        None\n    ]\n})\n\n\ndf = (\n    wdrs\n    .with_columns(\n        qa.qa_wdrs_result(wdrs_res_output='wdrs_res_output')\n    )\n)\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nwdrs_res_output\nqa_wdrs_result\n\n\n\n\n0\nG_FLU_ND\nfalse\n\n\n1\nG_FLU_A_D\nfalse\n\n\n2\nRandom Value\ntrue\n\n\n3\nNone\ntrue",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_test_performed.html",
+    "href": "reference/qa_wdrs_test_performed.html",
+    "title": "qa_wdrs_test_performed",
+    "section": "",
+    "text": "qa.qa_wdrs_test_performed(wdrs_test_perf_output: str)\nQA wdrs_test_performed\n\n\nTo be used in a .with_columns() statement\n\n\n\nfrom wadoh_subtyping import qa\ndf = (\n    df\n    .with_columns(\n        qa.qa_wdrs_test_performed(wdrs_test_perf_output=wdrs_test_perf_output)\n    )\n)",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_test_performed.html#usage",
+    "href": "reference/qa_wdrs_test_performed.html#usage",
+    "title": "qa_wdrs_test_performed",
+    "section": "",
+    "text": "To be used in a .with_columns() statement",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/qa_wdrs_test_performed.html#examples",
+    "href": "reference/qa_wdrs_test_performed.html#examples",
+    "title": "qa_wdrs_test_performed",
+    "section": "",
+    "text": "from wadoh_subtyping import qa\ndf = (\n    df\n    .with_columns(\n        qa.qa_wdrs_test_performed(wdrs_test_perf_output=wdrs_test_perf_output)\n    )\n)",
+    "crumbs": [
+      "Reference",
+      "QA Functions",
+      "qa_wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/run_pulls.html",
+    "href": "reference/run_pulls.html",
+    "title": "run_pulls",
+    "section": "",
+    "text": "processor.run_pulls()\nPull All Data\n\n\nRuns PHL, WDRS, and internal table pulls. You need access to Azure KeyVault to get the WDRS server info. See README for more info.\nReturns: Entire table and respnet tables\n\n\n\n\nphl_df : pl.DataFrame\n\na Polars dataframe containing PHL data\n\nreceived_submissions_df : pl.DataFrame\n\na Polars dataframe containing a receipt of the PHL data in json format\n\nbase_cols : list\n\na list of col names used throughout the process for easy reference\n\nrespnet : pl.DataFrame\n\na Polars dataframe containing joined respnet tables\n\nrespnet_wizard : pl.DataFrame\n\na Polars dataframe containing the respnet wizard table\n\nrespnet_investigation : pl.DataFrame\n\na Polars dataframe containing the respnet investigation table\n\ncon : duckdb.DuckDBPyConnection\n\na duckdb connection, used to query internal tables\n\nnet_drive : str\n\nthe network drive path\n\n\n\n\n\nCall in the class and it will execute this init function:\nfrom wadoh_subtyping import processor\n\n# ---- run processor ---- #\n# the processor contains general pulls and objects used in all processing (WDRS pulls, duckdb pull, etc)\ninstance = processor.data_processor()\nThen you can call in specific objects if you want, like specific tables init read in:\nresult = processor.run_pulls()\n\nrespnet_table = result.respnet_table",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "run_pulls"
+    ]
+  },
+  {
+    "objectID": "reference/run_pulls.html#usage",
+    "href": "reference/run_pulls.html#usage",
+    "title": "run_pulls",
+    "section": "",
+    "text": "Runs PHL, WDRS, and internal table pulls. You need access to Azure KeyVault to get the WDRS server info. See README for more info.\nReturns: Entire table and respnet tables",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "run_pulls"
+    ]
+  },
+  {
+    "objectID": "reference/run_pulls.html#returns",
+    "href": "reference/run_pulls.html#returns",
+    "title": "run_pulls",
+    "section": "",
+    "text": "phl_df : pl.DataFrame\n\na Polars dataframe containing PHL data\n\nreceived_submissions_df : pl.DataFrame\n\na Polars dataframe containing a receipt of the PHL data in json format\n\nbase_cols : list\n\na list of col names used throughout the process for easy reference\n\nrespnet : pl.DataFrame\n\na Polars dataframe containing joined respnet tables\n\nrespnet_wizard : pl.DataFrame\n\na Polars dataframe containing the respnet wizard table\n\nrespnet_investigation : pl.DataFrame\n\na Polars dataframe containing the respnet investigation table\n\ncon : duckdb.DuckDBPyConnection\n\na duckdb connection, used to query internal tables\n\nnet_drive : str\n\nthe network drive path",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "run_pulls"
+    ]
+  },
+  {
+    "objectID": "reference/run_pulls.html#examples",
+    "href": "reference/run_pulls.html#examples",
+    "title": "run_pulls",
+    "section": "",
+    "text": "Call in the class and it will execute this init function:\nfrom wadoh_subtyping import processor\n\n# ---- run processor ---- #\n# the processor contains general pulls and objects used in all processing (WDRS pulls, duckdb pull, etc)\ninstance = processor.data_processor()\nThen you can call in specific objects if you want, like specific tables init read in:\nresult = processor.run_pulls()\n\nrespnet_table = result.respnet_table",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "run_pulls"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_type.html",
+    "href": "reference/specimen_type.html",
+    "title": "specimen_type",
+    "section": "",
+    "text": "transform.specimen_type(spec_type_col: str)\nSpecimen Type",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_type.html#usage",
+    "href": "reference/specimen_type.html#usage",
+    "title": "specimen_type",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_type.html#parameters",
+    "href": "reference/specimen_type.html#parameters",
+    "title": "specimen_type",
+    "section": "Parameters",
+    "text": "Parameters\n\nspec_type_col : str\n\nspecimen type column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/specimen_type.html#examples",
+    "href": "reference/specimen_type.html#examples",
+    "title": "specimen_type",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"SpecimenSource\": [\n        \"Resipiratory: nasal swab\",\n        \"Nasopharyngeal Swab (NP)\",\n        \"Conjunctival Swab\"\n    ]\n})\n\n# here's how to apply the function\ndf = (\n    df\n    .with_columns(\n        SPECIMEN_TYPE=tf.specimen_type(spec_type_col='SpecimenSource')\n    )\n)\n\n# here's a table output\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nSpecimenSource\nSPECIMEN_TYPE\n\n\n\n\n0\nResipiratory: nasal swab\nNone\n\n\n1\nNasopharyngeal Swab (NP)\nSwab-nasopharyngeal (NP)\n\n\n2\nConjunctival Swab\nNone",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "specimen_type"
+    ]
+  },
+  {
+    "objectID": "reference/submitting_lab.html",
+    "href": "reference/submitting_lab.html",
+    "title": "submitting_lab",
+    "section": "",
+    "text": "transform.submitting_lab(submitter: str)\nSubmitting Lab\nReturn a column with the value in the submitter column. - Note: The name for the submitter col is ‘submitter’ for all 3 data sources/pathways (e.g. PHL, ELR, MFT)’) Name of column: SUBMITTING_LAB",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitting_lab"
+    ]
+  },
+  {
+    "objectID": "reference/submitting_lab.html#usage",
+    "href": "reference/submitting_lab.html#usage",
+    "title": "submitting_lab",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitting_lab"
+    ]
+  },
+  {
+    "objectID": "reference/submitting_lab.html#parameters",
+    "href": "reference/submitting_lab.html#parameters",
+    "title": "submitting_lab",
+    "section": "Parameters",
+    "text": "Parameters\n\nsubmitter : str\n\nname of submitter",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitting_lab"
+    ]
+  },
+  {
+    "objectID": "reference/submitting_lab.html#examples",
+    "href": "reference/submitting_lab.html#examples",
+    "title": "submitting_lab",
+    "section": "Examples",
+    "text": "Examples\nNote: the submitting lab column uses reference codes from WDRS. There is a long list of reference codes, but not all labs have a reference code. Also, LIMS may not have standard naming conventions for labs. Therefore we need to map labs to their reference codes as best as we can, but then for labs that are not on the list, default their code to 27782022 and use the text field SUBMITTER_OTHER to fill in the lab name from LIMS\n\nimport polars as pl\nimport polars.selectors as cs\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\n# Main DataFrame (df)\ndata = pl.DataFrame({\n    \"SubmittingLab\": [\n        \"Labcorp - Seattle Cherry Hill\",\n        \"Providence Reg Med Ctr - Everett\",\n        \"University of Washington Medical Center\",\n        \"Some Random Lab\"\n    ]\n})\n\ndf = (\n    data\n    .with_columns(\n        SUBMITTER = tf.submitting_lab(submitter=\"SubmittingLab\"),\n    )\n    .with_columns(\n        SUBMITTER_OTHER = tf.submitter_other(\n            submitting_lab='SUBMITTER',\n            submitter='SubmittingLab'\n        )\n    )\n)\n\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nSubmittingLab\nSUBMITTER\nSUBMITTER_OTHER\n\n\n\n\n0\nLabcorp - Seattle Cherry Hill\n6130705570\nNone\n\n\n1\nProvidence Reg Med Ctr - Everett\n85742\nNone\n\n\n2\nUniversity of Washington Medical Center\n88215\nNone\n\n\n3\nSome Random Lab\n27782022\nSome Random Lab",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "submitting_lab"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result.html",
+    "href": "reference/wdrs_result.html",
+    "title": "wdrs_result",
+    "section": "",
+    "text": "transform.wdrs_result(subtype: str)\nWDRS Test Result",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result.html#usage",
+    "href": "reference/wdrs_result.html#usage",
+    "title": "wdrs_result",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result.html#parameters",
+    "href": "reference/wdrs_result.html#parameters",
+    "title": "wdrs_result",
+    "section": "Parameters",
+    "text": "Parameters\n\nsubtype : str\n\nsubtype column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result.html#examples",
+    "href": "reference/wdrs_result.html#examples",
+    "title": "wdrs_result",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"ResultTextConclusion\": [\n        \"Influenza A virus detected by RT-PCR {58}\",\n        \"Influenza A(2009 H1N1) virus detected by RT-PCR {65}\", \n        \"Influenza A(H3) virus detected by RT-PCR {64}\", \n        \"Influenza A(H5) virus detected by RT-PCR {70}\",\n        \"Influenza A(H7) virus detected by RT-PCR\",\n        \"Influenza B virus detected by RT-PCR {59}\",\n        \"Influenza B/Victoria lineage detected by RT-PCR {91}\",\n        \"Influenza B/Yamagata lineage detected by RT-PCR {91}\",\n        \"Inconclusive - Invalid Result {68}\",\n        \"Influenza A virus detected by RT-PCR; Subtype undetected {66}\",\n        \"None\"\n\n    ]\n})\n\ndf = (\n    df\n    .with_columns(\n        WDRS_RESULT=tf.wdrs_result(\n            subtype='ResultTextConclusion'\n        )\n    )\n)\n\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nResultTextConclusion\nWDRS_RESULT\n\n\n\n\n0\nInfluenza A virus detected by RT-PCR {58}\nG_FLU_A_D\n\n\n1\nInfluenza A(2009 H1N1) virus detected by RT-PCR {65}\nG_FLU_A_(09_PDM_H1N1)_D\n\n\n2\nInfluenza A(H3) virus detected by RT-PCR {64}\nG_FLU_A_(H3)_D\n\n\n3\nInfluenza A(H5) virus detected by RT-PCR {70}\nG_FLU_A_(H5)_D\n\n\n4\nInfluenza A(H7) virus detected by RT-PCR\nG_FLU_A_(H7)_D\n\n\n5\nInfluenza B virus detected by RT-PCR {59}\nG_FLU_B\n\n\n6\nInfluenza B/Victoria lineage detected by RT-PCR {91}\nG_FLU_B_(VICTORIA)_D\n\n\n7\nInfluenza B/Yamagata lineage detected by RT-PCR {91}\nG_FLU_B_(YAMAGATA)_D\n\n\n8\nInconclusive - Invalid Result {68}\nG_FLU_ND\n\n\n9\nInfluenza A virus detected by RT-PCR; Subtype undetected {66}\nG_FLU_ND\n\n\n10\nNone\nG_FLU_ND",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_result.html#wdrs-variable-mapping",
+    "href": "reference/wdrs_result.html#wdrs-variable-mapping",
+    "title": "wdrs_result",
+    "section": "WDRS Variable Mapping",
+    "text": "WDRS Variable Mapping\nBelow are all distinct options in WDRS for the WDRS_RESULT variable and how the values map to LIMS data.\n\n\n\n\n\n\n\n\n\n\nLIMS Test Results\n\n\nAll distinct values found\n\n\nAnalyteSynonym\n\n\n\n\n2009pandemic Influenza A {1049}\n\n\nH1 2009pandemic {1050}\n\n\nH1\n\n\nH3\n\n\nInfluenza A(H5)a {1062}\n\n\nInfluenza A(H5)b {1063}\n\n\nInfluenza A(H7)Eu {1069}\n\n\nB(Victoria) {1095}\n\n\nB(Yamagata) {1094}\n\n\nInfluenza B\n\n\nNone\n\n\nAdenovirus\n\n\nCPE {1052}\n\n\nH275\n\n\nI223\n\n\nParainfluenza Type 1\n\n\nParainfluenza Type 2\n\n\nParainfluenza Type 3\n\n\nRespiratory Syncytial Virus\n\n\nRP\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWDRS Test Results\n\n\nAll distinct values found\n\n\nWDRS_RESULT\n\n\n\n\nInfluenza A (09 Pdm H1N1) detected\n\n\nInfluenza A (H3) detected\n\n\nInfluenza A (H3N2) detected\n\n\nInfluenza A (H5) detected\n\n\nInfluenza A (H7) detected\n\n\nInfluenza A detected\n\n\nInfluenza A, other detected\n\n\nInfluenza B (Victoria) detected\n\n\nInfluenza B (Yamagata) detected\n\n\nInfluenza B, other detected\n\n\nInfluenza not detected\n\n\nSpecimen inadequate\n\n\nManual review\n\n\nOther, specify",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_result"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_source.html",
+    "href": "reference/wdrs_specimen_source.html",
+    "title": "wdrs_specimen_source",
+    "section": "",
+    "text": "transform.wdrs_specimen_source(wdrs_spec_source_col: str)\nWDRS Specimen Source",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_source"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_source.html#usage",
+    "href": "reference/wdrs_specimen_source.html#usage",
+    "title": "wdrs_specimen_source",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_source"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_source.html#parameters",
+    "href": "reference/wdrs_specimen_source.html#parameters",
+    "title": "wdrs_specimen_source",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_spec_source_col : str\n\nspecimen source column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_source"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_specimen_source.html#examples",
+    "href": "reference/wdrs_specimen_source.html#examples",
+    "title": "wdrs_specimen_source",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"SpecimenSource\": [\n        \"Resipiratory: nasal swab\",\n        \"Nasopharyngeal Swab (NP)\",\n        \"Conjunctival Swab\"\n    ]\n})\n\n# here's how to apply the function\ndf = (\n    df\n    .with_columns(\n        WDRS_SPECIMEN_SOURCE=tf.wdrs_specimen_source(wdrs_spec_source_col='SpecimenSource')\n    )\n)\n\n# here's a table output\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nSpecimenSource\nWDRS_SPECIMEN_SOURCE\n\n\n\n\n0\nResipiratory: nasal swab\nNone\n\n\n1\nNasopharyngeal Swab (NP)\nG_NP_SWAB\n\n\n2\nConjunctival Swab\nG_EYE",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_specimen_source"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_test_performed.html",
+    "href": "reference/wdrs_test_performed.html",
+    "title": "wdrs_test_performed",
+    "section": "",
+    "text": "transform.wdrs_test_performed(wdrs_test_perf_col: str)\nWDRS Test Performed",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_test_performed.html#usage",
+    "href": "reference/wdrs_test_performed.html#usage",
+    "title": "wdrs_test_performed",
+    "section": "Usage",
+    "text": "Usage\nThe function can be called into a .with_columns() statement. It will reference the dataframe’s status column and output a cleaned version of it.",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_test_performed.html#parameters",
+    "href": "reference/wdrs_test_performed.html#parameters",
+    "title": "wdrs_test_performed",
+    "section": "Parameters",
+    "text": "Parameters\n\nwdrs_test_perf_col : str\n\ntest performed column",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_test_performed.html#examples",
+    "href": "reference/wdrs_test_performed.html#examples",
+    "title": "wdrs_test_performed",
+    "section": "Examples",
+    "text": "Examples\n\nimport polars as pl\nimport wadoh_subtyping.transform as tf\nfrom wadoh_raccoon.utils import helpers\n\ndf = pl.DataFrame({\n    \"ResultTextConclusion\": [\n        \"Influenza A(2009 H1N1) virus detected by RT-PCR {65}\", \n        \"Influenza B/Victoria lineage detected by RT-PCR {91}\", \n        \"Inconclusive - sample below limit of detection of test {61}\",\n        \"Influenza B virus detected by RT-PCR {59}\"\n    ]\n})\n\n# run the function\ndf = (\n    df\n    .with_columns(\n        WDRS_TEST_PERFORMED=tf.wdrs_test_performed(wdrs_test_perf_col='ResultTextConclusion')\n    )\n)\n\n# here's a table of the results\nhelpers.gt_style(df_inp=df)\n\n\n\n\n\n\n\nindex\nResultTextConclusion\nWDRS_TEST_PERFORMED\n\n\n\n\n0\nInfluenza A(2009 H1N1) virus detected by RT-PCR {65}\nG_PCR\n\n\n1\nInfluenza B/Victoria lineage detected by RT-PCR {91}\nG_PCR\n\n\n2\nInconclusive - sample below limit of detection of test {61}\nNone\n\n\n3\nInfluenza B virus detected by RT-PCR {59}\nG_PCR",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/wdrs_test_performed.html#wdrs-variable-mapping",
+    "href": "reference/wdrs_test_performed.html#wdrs-variable-mapping",
+    "title": "wdrs_test_performed",
+    "section": "WDRS Variable Mapping",
+    "text": "WDRS Variable Mapping\nBelow are all distinct options in WDRS for the WDRS_TEST_PERFORMED variable and how the values map to LIMS data.\n\n\n\n\n\n\n\n\nLIMS-ResultTextConclusion\nWDRS_TEST_PERFORMED\n\n\n\n\nInconclusive {50}\nDirect fluorescent antibody (DFA) / Immunohistochemistry (IHC)\n\n\nInfluenza A virus detected by RT-PCR {58}\nManual Review\n\n\nInfluenza A(2009 H1N1) virus detected by RT-PCR {65}\nPCR/Nucleic Acid Test (NAT, NAAT, DNA)\n\n\nInfluenza A(H3) virus detected by RT-PCR {64}\nRapid test (rapid EIA)\n\n\nInfluenza B virus detected by RT-PCR {59}\nViral culture (isolation)\n\n\n\nOther, specify",
+    "crumbs": [
+      "Reference",
+      "Transformation Functions",
+      "wdrs_test_performed"
+    ]
+  },
+  {
+    "objectID": "reference/write_phl.html",
+    "href": "reference/write_phl.html",
+    "title": "write_phl",
+    "section": "",
+    "text": "processor.write_phl(pull_res, w_res, main_res)\nWrite PHL\n\n\nTo be used after processor.match_phl() function. This function will write dataframes out to duckdb tables.\n\n\n\n\npull_res : \n\nclass that contains all the original table pulls\n\nw_res : \n\nclass that contains all the wrangled PHL tables\n\nmain_res : \n\nclass that contains all the matched tables\n\n\n\n\n\nThe function will ingest all the processed data and output it into duckdb tables (or delta tables in the future)\nIt will use the duckdb connection created in the init, and then insert/append data into the tables\nif len(received_submissions_df) &gt; 0:\n    # append a copy of these records to received_submissions so we have a raw data snapshot\n    # self.con.sql(f\"INSERT INTO received_submissions SELECT * FROM received_submissions_df\") \n\n    self.con.sql(\n        '''\n        INSERT INTO received_submissions AS rt\n        SELECT r.*\n        FROM received_submissions_df AS r\n        LEFT OUTER JOIN received_submissions AS rt\n        ON rt.submission_number = r.submission_number\n        WHERE rt.submission_number IS NULL;\n        '''\n    )",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "write_phl"
+    ]
+  },
+  {
+    "objectID": "reference/write_phl.html#usage",
+    "href": "reference/write_phl.html#usage",
+    "title": "write_phl",
+    "section": "",
+    "text": "To be used after processor.match_phl() function. This function will write dataframes out to duckdb tables.",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "write_phl"
+    ]
+  },
+  {
+    "objectID": "reference/write_phl.html#parameters",
+    "href": "reference/write_phl.html#parameters",
+    "title": "write_phl",
+    "section": "",
+    "text": "pull_res : \n\nclass that contains all the original table pulls\n\nw_res : \n\nclass that contains all the wrangled PHL tables\n\nmain_res : \n\nclass that contains all the matched tables",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "write_phl"
+    ]
+  },
+  {
+    "objectID": "reference/write_phl.html#examples",
+    "href": "reference/write_phl.html#examples",
+    "title": "write_phl",
+    "section": "",
+    "text": "The function will ingest all the processed data and output it into duckdb tables (or delta tables in the future)\nIt will use the duckdb connection created in the init, and then insert/append data into the tables\nif len(received_submissions_df) &gt; 0:\n    # append a copy of these records to received_submissions so we have a raw data snapshot\n    # self.con.sql(f\"INSERT INTO received_submissions SELECT * FROM received_submissions_df\") \n\n    self.con.sql(\n        '''\n        INSERT INTO received_submissions AS rt\n        SELECT r.*\n        FROM received_submissions_df AS r\n        LEFT OUTER JOIN received_submissions AS rt\n        ON rt.submission_number = r.submission_number\n        WHERE rt.submission_number IS NULL;\n        '''\n    )",
+    "crumbs": [
+      "Reference",
+      "Processor Functions",
+      "write_phl"
+    ]
+  }
+]
