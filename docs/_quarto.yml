@@ -117,10 +117,10 @@ format:
   live-html:
     toc: true
     theme: 
-      dark: [darkly, assets/styles.scss]
-      light: darkly
+      dark: [darkly, assets/dark-styles.scss]
+      light: [cosmo, assets/styles.scss]
     dark-mode: true
-    highlight-style: vim-dark
+    # highlight-style: arrow-dark
     grid:
       sidebar-width: 300px
       body-width: 900px
