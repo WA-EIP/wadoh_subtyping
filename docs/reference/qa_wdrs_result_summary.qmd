@@ -1,0 +1,44 @@
+# qa_wdrs_result_summary { #wadoh_subtyping.qa.qa_wdrs_result_summary }
+
+```python
+qa.qa_wdrs_result_summary(wdrs_res_sum_output: str)
+```
+
+QA wdrs_result_summary
+
+## Usage {.doc-section .doc-section-usage}
+
+To be used in a .with_columns() statement
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**wdrs_res_sum_output**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   wdrs result summary column output from transformation functions
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+```{python}
+from wadoh_subtyping import qa
+from wadoh_raccoon.utils import helpers 
+import polars as pl
+
+roster = pl.DataFrame({
+    "wdrs_res_sum_output": [
+        'G_POSITIVE',
+        'G_NEGATIVE',
+        None        ]
+})
+df = (
+    roster
+    .with_columns(
+        qa.qa_wdrs_result_summary(wdrs_res_sum_output='wdrs_res_sum_output')
+    )
+)
+
+helpers.gt_style(df_inp=df)
+```

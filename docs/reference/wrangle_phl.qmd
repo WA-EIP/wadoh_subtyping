@@ -1,0 +1,55 @@
+# wrangle_phl { #wadoh_subtyping.processor.wrangle_phl }
+
+```python
+processor.wrangle_phl(pull_res)
+```
+
+Wrangle PHL
+
+## Usage {.doc-section .doc-section-usage}
+
+To be called after the read_pulls() function.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**pull_res**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+
+:   a class containing all the table pulls. see processor.read_pulls()
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**transformed_df**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe containing transformed PHL data
+
+<code>[**qa_issues**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe containing records with QA issues
+
+<code>[**no_qa_issues**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe with records that are cleared to send to fuzzy matching
+
+<code>[**submissions_to_fuzzy**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   records to be sent to fuzzy matching, like no_qa_issues but with only necessary columns
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+from src.subtype_link import processor
+
+result = processor.run_pulls()
+```
+Now call the wrangle_phl() function
+
+```python
+wrangled_dfs = processor.wrangle_phl(pull_res=result)
+```
+And you can get the dataframes like this:
+
+```python
+wrangled_dfs.qa_issues
+
+wrangled_dfs.no_qa_issues
+```

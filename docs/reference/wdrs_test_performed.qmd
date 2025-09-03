@@ -1,0 +1,103 @@
+# wdrs_test_performed { #wadoh_subtyping.transform.wdrs_test_performed }
+
+```python
+transform.wdrs_test_performed(wdrs_test_perf_col: str)
+```
+
+WDRS Test Performed
+
+## Usage {.doc-section .doc-section-usage}
+
+The function can be called into a .with_columns() statement. It will reference the dataframe's status column and output a cleaned version of it.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**wdrs_test_perf_col**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   test performed column
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+```{python}
+import polars as pl
+import wadoh_subtyping.transform as tf
+from wadoh_raccoon.utils import helpers
+
+df = pl.DataFrame({
+    "ResultTextConclusion": [
+        "Influenza A(2009 H1N1) virus detected by RT-PCR {65}", 
+        "Influenza B/Victoria lineage detected by RT-PCR {91}", 
+        "Inconclusive - sample below limit of detection of test {61}",
+        "Influenza B virus detected by RT-PCR {59}"
+    ]
+})
+
+# run the function
+df = (
+    df
+    .with_columns(
+        WDRS_TEST_PERFORMED=tf.wdrs_test_performed(wdrs_test_perf_col='ResultTextConclusion')
+    )
+)
+
+# here's a table of the results
+helpers.gt_style(df_inp=df)
+```
+
+## WDRS Variable Mapping
+
+Below are all distinct options in WDRS for the `WDRS_TEST_PERFORMED` variable and how the values map to LIMS data.
+
+```{python}
+#| echo: false
+
+from great_tables import GT, md, style, loc, google_font
+
+
+wdrs = pl.DataFrame({
+    "LIMS-ResultTextConclusion": [
+                "Inconclusive {50}",
+                "Influenza A virus detected by RT-PCR {58}",
+                "Influenza A(2009 H1N1) virus detected by RT-PCR {65}",
+                "Influenza A(H3) virus detected by RT-PCR {64}", 
+                "Influenza B virus detected by RT-PCR {59}",
+                ""
+            ],
+    "WDRS_TEST_PERFORMED": [
+        "Direct fluorescent antibody (DFA) / Immunohistochemistry (IHC)",
+        "Manual Review", 
+        "PCR/Nucleic Acid Test (NAT, NAAT, DNA)", 
+        "Rapid test (rapid EIA)",
+        "Viral culture (isolation)",
+        "Other, specify"
+    ]
+})
+
+(
+    helpers.gt_style(
+        df_inp=wdrs,
+        add_striping_inp=False,
+        index_inp=False
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="rgb(114, 219, 248)"),
+                    style.text(weight="bold")
+                ],
+                locations=loc.body(rows=[2])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="rgb(114, 219, 248)"),
+                    style.text(weight="bold")
+                ],
+                locations=loc.body(columns='LIMS-ResultTextConclusion',rows=[1,2,3,4])
+    )
+    
+    
+    )
+```

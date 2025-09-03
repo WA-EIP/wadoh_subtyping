@@ -1,0 +1,6 @@
+# rematch { #wadoh_subtyping.processor.rematch }
+
+```python
+processor.rematch(pull_res)
+```
+

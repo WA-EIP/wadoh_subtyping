@@ -494,16 +494,6 @@ def write_phl(pull_res,w_res,main_res):
         print('Appending records into duckdb fuzzy_without_demo_tbl')
         # append a copy of these records to no_match
         # self.con.sql(f"INSERT INTO fuzzy_without_demo_tbl SELECT * FROM fuzzy_without_demo_df_base")
-        # pull_res.con.sql(
-        #     """
-        #     INSERT INTO fuzzy_without_demo_tbl AS rt
-        #     SELECT r.*
-        #     FROM fuzzy_without_demo_df AS r
-        #     LEFT OUTER JOIN fuzzy_without_demo_tbl AS rt
-        #     ON rt.submission_number = r.submission_number
-        #     WHERE rt.submission_number IS NULL;
-        #     """
-        # )
         helpers.safe_insert(
             con=pull_res.con,
             table_name='fuzzy_without_demo_tbl',

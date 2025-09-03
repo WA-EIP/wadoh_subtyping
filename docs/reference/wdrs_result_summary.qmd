@@ -1,0 +1,47 @@
+# wdrs_result_summary { #wadoh_subtyping.transform.wdrs_result_summary }
+
+```python
+transform.wdrs_result_summary(wdrs_res_col: str)
+```
+
+wdrs result summary
+
+## Usage {.doc-section .doc-section-usage}
+
+to be used in a .with_columns() statement
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**wdrs_res_col**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   wdrs result column
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+```{python}
+import wadoh_subtyping.transform as tf
+from wadoh_raccoon.utils import helpers
+import polars as pl
+
+df = pl.DataFrame({
+    "TestResult": [
+        "Not Detected {52}",
+        "Detected {51}",
+        "Test {53}"
+    ]
+})
+
+result = (
+    df
+    .with_columns(
+        WDRS_RESULT_SUMMARY=tf.wdrs_result_summary(wdrs_res_col='TestResult')
+    )
+)
+
+helpers.gt_style(df_inp=result)
+
+```

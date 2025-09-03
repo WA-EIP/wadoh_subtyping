@@ -1,0 +1,57 @@
+# collection_date { #wadoh_subtyping.transform.collection_date }
+
+```python
+transform.collection_date(df, col: str)
+```
+
+Specimen Collection Date
+
+Convert collection date column to a standardized date format
+
+## Usage {.doc-section .doc-section-usage}
+
+The function can be called into a .with_columns() statement. It will reference the dataframe's status column and output a cleaned version of it.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**col**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   the sequence collection date column
+
+<code>[**df**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+
+:   the dataframe of interest
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+
+For PHL/Template dates:
+
+```{python}
+import polars as pl
+import wadoh_subtyping.transform as tf
+from wadoh_raccoon.utils import helpers
+
+df = pl.DataFrame({
+    "submitted_date": [
+        '11/7/2021',
+        '12/10/2023',
+        None
+    ]
+})
+
+# how to apply the function
+df = (
+    df
+    .with_columns(
+        SPECIMEN_COLLECTION_DTTM=tf.collection_date(df,col="submitted_date")
+    )
+)
+
+# table output
+helpers.gt_style(df_inp=df)
+```

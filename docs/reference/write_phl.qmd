@@ -1,0 +1,50 @@
+# write_phl { #wadoh_subtyping.processor.write_phl }
+
+```python
+processor.write_phl(pull_res, w_res, main_res)
+```
+
+Write PHL
+
+## Usage {.doc-section .doc-section-usage}
+
+To be used after processor.match_phl() function.
+This function will write dataframes out to duckdb tables.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**pull_res**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+
+:   class that contains all the original table pulls
+
+<code>[**w_res**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+
+:   class that contains all the wrangled PHL tables
+
+<code>[**main_res**]{.parameter-name} [:]{.parameter-annotation-sep} []{.parameter-annotation}</code>
+
+:   class that contains all the matched tables
+
+## Examples {.doc-section .doc-section-examples}
+
+The function will ingest all the processed data and output it into duckdb tables (or delta tables in the future)
+
+It will use the duckdb connection created in the init, and then insert/append data into the tables
+
+```python
+if len(received_submissions_df) > 0:
+    # append a copy of these records to received_submissions so we have a raw data snapshot
+    # self.con.sql(f"INSERT INTO received_submissions SELECT * FROM received_submissions_df") 
+
+    self.con.sql(
+        '''
+        INSERT INTO received_submissions AS rt
+        SELECT r.*
+        FROM received_submissions_df AS r
+        LEFT OUTER JOIN received_submissions AS rt
+        ON rt.submission_number = r.submission_number
+        WHERE rt.submission_number IS NULL;
+        '''
+    )
+
+```

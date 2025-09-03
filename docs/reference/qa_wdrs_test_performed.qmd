@@ -1,0 +1,23 @@
+# qa_wdrs_test_performed { #wadoh_subtyping.qa.qa_wdrs_test_performed }
+
+```python
+qa.qa_wdrs_test_performed(wdrs_test_perf_output: str)
+```
+
+QA wdrs_test_performed
+
+## Usage {.doc-section .doc-section-usage}
+
+To be used in a .with_columns() statement
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+from wadoh_subtyping import qa
+df = (
+    df
+    .with_columns(
+        qa.qa_wdrs_test_performed(wdrs_test_perf_output=wdrs_test_perf_output)
+    )
+)
+```
