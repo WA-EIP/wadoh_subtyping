@@ -469,17 +469,7 @@ def write_phl(pull_res,w_res,main_res):
 
         pull_res.con.register("roster_df", main_res.fuzzy_matched_roster_full) 
         print('Appending records into duckdb rostered_tbl')
-        # append a copy of these records to no_match
-        # pull_res.con.sql(
-        #     """
-        #     INSERT INTO rostered_tbl AS rt
-        #     SELECT r.*
-        #     FROM roster_df AS r
-        #     LEFT OUTER JOIN rostered_tbl AS rt
-        #     ON rt.submission_number = r.submission_number
-        #     WHERE rt.submission_number IS NULL;
-        #     """
-        # )
+
         helpers.safe_insert(
             con=pull_res.con,
             table_name='rostered_tbl',
