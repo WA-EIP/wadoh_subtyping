@@ -1,13 +1,9 @@
 ---
 title: Guides and Onboarding
 description: Our desk manuals, guides, procedures, and policies
-number-sections: false
 page-layout: article
-format: 
-  html: 
-    number-sections: false
-    title-block-banner: false
-    toc: false
+toc: false
+number-sections: false
 execute: 
   freeze: true
 ---

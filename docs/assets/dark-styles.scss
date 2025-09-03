@@ -1,0 +1,256 @@
+/*-- scss:defaults --*/
+$primary: #440154ff;
+
+$body-bg: #0e0f13;
+$body-color: #fcfeffff;
+$link-color: #9ccfffff;
+
+// Code blocks
+$code-block-bg-alpha: -.9;
+
+$link-decoration: underline !default; 
+
+$font-size-root: 17px;
+
+
+
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+// @import url('https://rsms.me/inter/inter.css');
+// html { font-family: 'Inter', sans-serif; }
+// @supports (font-variation-settings: normal) {
+//   html { font-family: 'Inter var', sans-serif; }
+// }
+
+/*-- scss:rules --*/
+
+
+.css-qp8v3 {
+  font-weight: 500;
+  font-size: 3.5em;
+  line-height: 1.15;
+  letter-spacing: -0.03;
+  margin-bottom: 24px;
+}
+
+.css-nzw60t {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.title-header {
+    font-size: 2em;
+    // line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    // text-transform: uppercase;
+    // margin-bottom: 32px;
+    font-family: inter;
+  }
+
+
+.navbar-container {
+  width: 90%;
+  height: 100px;
+  font-size: large;
+//   z-index: 1;
+}
+
+
+#navbarCollapse > ul.navbar-nav.navbar-nav-scroll.me-auto > li > a:hover {
+  background-color: rgb(240, 112, 0);
+  color: white;
+  border-radius: 5px;
+}
+
+.navbar-brand {
+	font-family: "Hanken Grotesk";
+	font-weight: 900;
+	font-size: 30px;
+	color: #c3deea;
+}
+
+.nav-link {
+    color: $body-color;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+	color: #cbcfa5ff;
+	background-color: var(--bs-nav-tabs-link-active-bg);
+	border-color: var(--bs-nav-tabs-link-active-border-color);
+}
+
+
+
+
+:root {
+    --bs-body-font-family: 'Atkinson Hyperlegible';
+    --bs-body-font-size: 21px;
+  }
+
+.sidebar-item-text {
+	font-size: 17px;
+}
+
+
+/* css styles */
+
+.cell-output pre code {
+  white-space: pre-wrap;
+}
+
+// indent parameter descriptions for quartodoc
+.doc-section dl dd {
+  margin-left: 3rem;
+}
+
+.doc-section dl dt code {
+  font-family: 'JetBrains Mono';
+  background-color: #cbe2f9;
+}
+
+dd {
+  margin-left: 3em;
+}
+
+p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
+	background-color: #f8f9fa;
+	padding: .2em;
+	font-family: "JetBrains Mono";
+}
+
+div.sourceCode {
+	background-color: #2b2323;;
+	font-family: "JetBrains Mono";
+}
+
+// code span {
+// 	color: #ffefef;
+// 	font-style: inherit;
+// }
+
+.sourceCode code span {
+  color: white;
+}
+
+
+/* Override specific part: parameter name inside code */
+code .parameter-name {
+  color: black;
+}
+
+
+/* Optional: make the separator and annotation gray */
+code .parameter-annotation-sep,
+code .parameter-annotation {
+  color: #000000;
+}
+
+pre > code.sourceCode > span {
+	color: #fff0f0;
+	font-style: inherit;
+	font-family: "JetBrains Mono";
+}
+
+code span.st {
+	color: #fbf;
+}
+
+div.sidebar-item-container {
+	color: rgb(211, 233, 255);
+}
+
+
+/* sidebar formatting */
+
+.sidebar a.nav-link {
+  font-size: 17.4px;
+  font-weight: 400;
+}
+
+
+.sidebar-item-container .text-start {
+  font-weight: 600;
+  font-size: 17.4px !important;
+}
+
+.sidebar-item-text {
+  /*color: rgba(60, 60, 60, 0.7);*/
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  font-size: 15px;
+}
+
+.sidebar-item {
+  margin-top: 0px;
+}
+
+.sidebar-item-section {
+  padding-top: 16px;
+}
+
+.sidebar-section {
+  padding-left: 0px !important;
+}
+
+.sidebar-item-section .sidebar-item-section {
+  padding-top: 0px;
+  padding-left: 10px;
+}
+
+
+td:first-child {
+  text-wrap: nowrap;
+  text-size-adjust: 100%;
+}
+
+td:first-child a {
+  word-break: normal;
+}
+
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: $gray-900;
+  color: $gray-100;
+  border: 1px solid white;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+  font-weight: bold;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+}
+
+// box around splash options
+.box {
+  border-radius: 5px;
+  // box-shadow: 0px 30px 40px -20px var(--grayishBlue);
+  padding: 30px;
+  margin: 20px; 
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+}
+
