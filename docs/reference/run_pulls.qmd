@@ -1,0 +1,68 @@
+# run_pulls { #wadoh_subtyping.processor.run_pulls }
+
+```python
+processor.run_pulls()
+```
+
+Pull All Data
+
+## Usage {.doc-section .doc-section-usage}
+
+Runs PHL, WDRS, and internal table pulls.
+You need access to Azure KeyVault to get the WDRS server info. See README for more info.
+
+Returns: Entire table and respnet tables
+
+## Returns {.doc-section .doc-section-returns}
+
+<code>[**phl_df**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe containing PHL data
+
+<code>[**received_submissions_df**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe containing a receipt of the PHL data in json format
+
+<code>[**base_cols**]{.parameter-name} [:]{.parameter-annotation-sep} [list]{.parameter-annotation}</code>
+
+:   a list of col names used throughout the process for easy reference
+
+<code>[**respnet**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe containing joined respnet tables
+
+<code>[**respnet_wizard**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe containing the respnet wizard table
+
+<code>[**respnet_investigation**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   a Polars dataframe containing the respnet investigation table
+
+<code>[**con**]{.parameter-name} [:]{.parameter-annotation-sep} [duckdb.DuckDBPyConnection]{.parameter-annotation}</code>
+
+:   a duckdb connection, used to query internal tables
+
+<code>[**net_drive**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   the network drive path
+
+## Examples {.doc-section .doc-section-examples}
+
+Call in the class and it will execute this init function:
+
+```python
+from wadoh_subtyping import processor
+
+# ---- run processor ---- #
+# the processor contains general pulls and objects used in all processing (WDRS pulls, duckdb pull, etc)
+instance = processor.data_processor()
+```
+
+Then you can call in specific objects if you want, like specific tables init read in:
+
+```python
+result = processor.run_pulls()
+
+respnet_table = result.respnet_table
+```

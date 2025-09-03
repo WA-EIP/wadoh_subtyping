@@ -1,0 +1,22 @@
+# create_roster { #wadoh_subtyping.transform.create_roster }
+
+```python
+transform.create_roster(
+    matched_and_transformed_df: pl.DataFrame,
+    respnet: pl.DataFrame,
+)
+```
+
+Create Roster
+
+## Usage {.doc-section .doc-section-usage}
+
+Apply to a transformed and matched pl.DataFrame
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+import wadoh_subtyping.transformations as tf
+
+create_roster = tf.create_roster(matched_and_transformed_df=fuzzy_matched,respnet=wdrs_table) 
+```

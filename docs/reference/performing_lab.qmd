@@ -1,0 +1,42 @@
+# performing_lab { #wadoh_subtyping.transform.performing_lab }
+
+```python
+transform.performing_lab()
+```
+
+Performing Lab
+
+## Usage {.doc-section .doc-section-usage}
+
+To be used within a .with_columns statement to produce new columns in a dataframe
+
+## Examples {.doc-section .doc-section-examples}
+
+Defaults to PHL. This needs to be a reference code for WDRS facility `WA State PHL (Public Health Laboratories)` which is `81594`
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+```{python}
+import polars as pl
+import polars.selectors as cs
+import wadoh_subtyping.transform as tf
+import wadoh_raccoon.utils.helpers as helpers
+
+# Main DataFrame (df)
+df = pl.DataFrame({
+    "FIRST_NAME": ["john", "a-lice", "BOb"]
+})
+
+df = (
+    df
+    .with_columns(
+        PERFORMING_LAB_ENTIRE_REPORT = tf.performing_lab()
+    )
+)
+
+helpers.gt_style(df_inp=df)
+
+
+```

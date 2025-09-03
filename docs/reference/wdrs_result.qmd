@@ -1,0 +1,267 @@
+# wdrs_result { #wadoh_subtyping.transform.wdrs_result }
+
+```python
+transform.wdrs_result(subtype: str)
+```
+
+WDRS Test Result
+
+## Usage {.doc-section .doc-section-usage}
+
+The function can be called into a .with_columns() statement. It will reference the dataframe's status column and output a cleaned version of it.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**subtype**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   subtype column
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+```{python}
+import polars as pl
+import wadoh_subtyping.transform as tf
+from wadoh_raccoon.utils import helpers
+
+df = pl.DataFrame({
+    "ResultTextConclusion": [
+        "Influenza A virus detected by RT-PCR {58}",
+        "Influenza A(2009 H1N1) virus detected by RT-PCR {65}", 
+        "Influenza A(H3) virus detected by RT-PCR {64}", 
+        "Influenza A(H5) virus detected by RT-PCR {70}",
+        "Influenza A(H7) virus detected by RT-PCR",
+        "Influenza B virus detected by RT-PCR {59}",
+        "Influenza B/Victoria lineage detected by RT-PCR {91}",
+        "Influenza B/Yamagata lineage detected by RT-PCR {91}",
+        "Inconclusive - Invalid Result {68}",
+        "Influenza A virus detected by RT-PCR; Subtype undetected {66}",
+        "None"
+
+    ]
+})
+
+df = (
+    df
+    .with_columns(
+        WDRS_RESULT=tf.wdrs_result(
+            subtype='ResultTextConclusion'
+        )
+    )
+)
+
+helpers.gt_style(df_inp=df)
+```
+
+## WDRS Variable Mapping
+
+Below are all distinct options in WDRS for the `WDRS_RESULT` variable and how the values map to LIMS data.
+
+:::{.columns}
+
+::: {.column width="50%"}
+
+```{python}
+#| echo: false
+from great_tables import GT, md, style, loc, google_font
+
+phl = pl.DataFrame({
+        "AnalyteSynonym": [
+            "2009pandemic Influenza A {1049}",
+            "H1 2009pandemic {1050}",
+            "H1",
+            "H3", 
+            "Influenza A(H5)a {1062}",
+            "Influenza A(H5)b {1063}",
+            "Influenza A(H7)Eu {1069}",
+            "B(Victoria) {1095}",
+            "B(Yamagata) {1094}",
+            "Influenza B",
+            None,
+            "Adenovirus",
+            "CPE {1052}",
+            "H275",
+            "I223",
+            "Parainfluenza Type 1",
+            "Parainfluenza Type 2",
+            "Parainfluenza Type 3",
+            "Respiratory Syncytial Virus",
+            "RP"
+        ]
+    })
+(
+    helpers.gt_style(
+        df_inp=phl,
+        title="LIMS Test Results",
+        subtitle="All distinct values found",
+        add_striping_inp=False,
+        index_inp=False
+
+
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#440154FF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[0,1])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#482777FF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[3])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#3F4A89FF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[4,5])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#26828EFF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[6])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#3F9A58FF"),
+                    style.text(weight="bold")
+                ],
+                locations=loc.body(rows=[7])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#5CC863FF"),
+                    style.text(weight="bold")
+                ],
+                locations=loc.body(rows=[8])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#F0D800FF"),
+                    style.text(weight="bold")
+                ],
+                locations=loc.body(rows=[9])
+    )
+    
+)
+```
+:::
+
+::: {.column width="50%"}
+
+```{python}
+#| echo: false
+
+from great_tables import GT, md, style, loc, google_font
+
+
+wdrs = pl.DataFrame({
+    "WDRS_RESULT": [
+        "Influenza A (09 Pdm H1N1) detected",
+        "Influenza A (H3) detected", 
+        "Influenza A (H3N2) detected", 
+        "Influenza A (H5) detected",
+        "Influenza A (H7) detected",
+        "Influenza A detected",
+        "Influenza A, other detected",
+        "Influenza B (Victoria) detected",
+        "Influenza B (Yamagata) detected",
+        "Influenza B, other detected",
+        "Influenza not detected",
+        "Specimen inadequate",
+        "Manual review",
+        "Other, specify"
+
+    ]
+})
+
+(
+    helpers.gt_style(
+        df_inp=wdrs,
+        title="WDRS Test Results",
+        subtitle="All distinct values found",
+        add_striping_inp=False,
+        index_inp=False
+
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#440154FF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[0])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#482777FF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[1,2])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#3F4A89FF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[3])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#26828EFF"),
+                    style.text(weight="bold"),
+                    style.css(rule="color: rgb(244, 227, 243)")
+                ],
+                locations=loc.body(rows=[4])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#3F9A58FF"),
+                    style.text(weight="bold")
+                ],
+                locations=loc.body(rows=[7])
+    )
+    .tab_style(
+            style=[
+                    style.fill(color="#5CC863FF"),
+                    style.text(weight="bold")
+                ],
+                locations=loc.body(rows=[8])
+    )
+    #    .tab_style(
+    #         style=[
+    #                 style.fill(color="#F0D800FF"),
+    #                 style.text(weight="bold")
+    #             ],
+    #             locations=loc.body(rows=[9])
+    #    )
+    # .tab_style(
+    #         style=[
+    #                 style.fill(color="rgb(197, 196, 193)"),
+    #                 style.text(weight="bold")
+    #             ],
+    #             locations=loc.body(rows=[5,6,9,10,11])
+    # )
+    
+    )
+```
+
+:::
+
+
+:::

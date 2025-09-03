@@ -1,0 +1,49 @@
+# wdrs_specimen_type { #wadoh_subtyping.transform.wdrs_specimen_type }
+
+```python
+transform.wdrs_specimen_type(wdrs_spec_type_col: str)
+```
+
+WDRS Specimen Type 
+
+## Usage {.doc-section .doc-section-usage}
+
+The function can be called into a .with_columns() statement. It will reference the dataframe's status column and output a cleaned version of it.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**wdrs_spec_type_col**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   specimen type column
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+```{python}
+import polars as pl
+import wadoh_subtyping.transform as tf
+from wadoh_raccoon.utils import helpers
+
+df = pl.DataFrame({
+    "submitter": ["PHL", "PHL", "PHL"],
+    "SpecimenSource": [
+        "Resipiratory: nasal swab",
+        "Nasopharyngeal Swab (NP)",
+        "Conjunctival Swab"
+    ]
+})
+
+# here's how to apply the function to a dataframe
+df = (
+    df
+    .with_columns(
+        WDRS_SPECIMEN_TYPE=tf.wdrs_specimen_type(wdrs_spec_type_col='SpecimenSource')
+    )
+)
+
+# here's a table of the results
+helpers.gt_style(df_inp=df)
+```

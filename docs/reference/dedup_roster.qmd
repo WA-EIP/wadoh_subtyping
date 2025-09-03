@@ -1,0 +1,19 @@
+# dedup_roster { #wadoh_subtyping.transform.dedup_roster }
+
+```python
+transform.dedup_roster(roster_inp: pl.DataFrame, reference_inp: pl.DataFrame)
+```
+
+Dedup Roster
+
+## Usage {.doc-section .doc-section-usage}
+
+Use against a formatted roster to dedup records that already exist in WDRS
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+import wadoh_subtyping.transform as tf
+
+final_roster = tf.dedup_roster(roster_inp=created_roster,reference_inp=wdrs_table)
+```

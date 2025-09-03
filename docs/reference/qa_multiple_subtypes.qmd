@@ -1,0 +1,118 @@
+# qa_multiple_subtypes { #wadoh_subtyping.qa.qa_multiple_subtypes }
+
+```python
+qa.qa_multiple_subtypes(
+    wdrs_res_sum_output: str,
+    test_res_output: str,
+    wdrs_res_output: str,
+    transformed_df_inp: pl.DataFrame,
+)
+```
+
+QA multiple_subtypes
+
+## Usage {.doc-section .doc-section-usage}
+
+To be used on a pl.DataFrame. Sometimes LIMS labels two different subtypes as `Detected`
+for the same specimen. For example, one specimen may be labeled as `H3` detected _and_ `H1N1`
+detected. This shouldn't happen. The `qa_multiple_subtypes2` function will flag these records
+for further review.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**wdrs_res_sum_output**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   wdrs result summary output col from transformation functions
+
+<code>[**test_res_output**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   test result output col from transformation functions
+
+<code>[**wdrs_res_output**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   wdrs result output col from transformation functions
+
+<code>[**transformed_df_inp**]{.parameter-name} [:]{.parameter-annotation-sep} [pl.DataFrame]{.parameter-annotation}</code>
+
+:   transformed dataframe
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+
+Here is the transformed dataframe that contains a record with multiple subtypes 
+(when it should only have one subtype)
+```{python}
+from wadoh_subtyping import qa
+from wadoh_raccoon.utils import helpers
+import polars as pl
+
+transformed_df = pl.DataFrame({
+    "submission_number": ['200','200'],
+    "wdrs_res_sum_output": [
+        "G_POSITIVE",
+        "G_POSITIVE"
+    ],
+    "test_res_output": [
+        "Influenza A (09 Pdm H1N1) detected",
+        "Influenza A (H3) detected"
+    ],
+    "wdrs_res_output": [
+        "G_FLU_A_(09_PDM_H1N1)_D",
+        "G_FLU_A_(H3)_D"
+    ]
+})
+```
+
+Apply the function
+
+```{python}
+qa_mult_subtypes = (
+    qa.qa_multiple_subtypes(
+        transformed_df_inp=transformed_df,
+        wdrs_res_sum_output='wdrs_res_sum_output',
+        test_res_output='test_res_output',
+        wdrs_res_output='wdrs_res_output'
+    )
+)
+
+```
+```{python}
+#| echo: false
+from great_tables import GT, md, style, loc, google_font
+(
+    helpers.gt_style(df_inp=qa_mult_subtypes.select(['test_res_output','qa_multiple_subtypes']),index_inp=False)
+    .tab_style(
+        style=[
+            style.fill(color="#cbe2f9"),
+            style.text(weight="bold")
+        ],
+        locations=loc.column_labels(columns=['qa_multiple_subtypes'])
+    )
+    .tab_style(
+        style=[
+            style.fill(color="#cbe2f9"),
+            style.text(weight="bold")
+        ],
+        locations=loc.body(columns=['qa_multiple_subtypes'])
+    )
+)
+
+``` 
+
+So now we can use this flag and filter the records out:
+```{python}
+apply_qa = (
+    transformed_df
+    .with_columns(
+        pl.when(pl.col('submission_number').is_in(qa_mult_subtypes['submission_number']))
+        .then(True)
+        .otherwise(False)
+        .alias('qa_multiple_subtypes')
+    )
+)
+
+```

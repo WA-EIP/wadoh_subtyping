@@ -1,0 +1,48 @@
+# qa_wdrs_result { #wadoh_subtyping.qa.qa_wdrs_result }
+
+```python
+qa.qa_wdrs_result(wdrs_res_output: str)
+```
+
+QA wdrs_result
+
+## Usage {.doc-section .doc-section-usage}
+
+To be used in a .with_columns() statement. This function will flag rows where there are unexpected test results.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**wdrs_res_output**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   wdrs result output from transformation functions
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+
+```{python}
+from wadoh_subtyping import qa
+from wadoh_raccoon.utils import helpers
+import polars as pl
+
+wdrs = pl.DataFrame({
+    "wdrs_res_output": [
+       "G_FLU_ND",
+        "G_FLU_A_D", 
+        "Random Value", 
+        None
+    ]
+})
+
+
+df = (
+    wdrs
+    .with_columns(
+        qa.qa_wdrs_result(wdrs_res_output='wdrs_res_output')
+    )
+)
+helpers.gt_style(df_inp=df)
+```

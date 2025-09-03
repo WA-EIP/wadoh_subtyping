@@ -1,0 +1,69 @@
+# submitter_other { #wadoh_subtyping.transform.submitter_other }
+
+```python
+transform.submitter_other(submitting_lab: str, submitter: str)
+```
+
+Submitting Lab
+
+## Usage {.doc-section .doc-section-usage}
+
+The function can be called into a .with_columns() statement.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+<code>[**submitter**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   name of transformed submitter column created by `tf.submitting_lab()`
+
+<code>[**submitting_lab**]{.parameter-name} [:]{.parameter-annotation-sep} [str]{.parameter-annotation}</code>
+
+:   name of the lab
+
+## Examples {.doc-section .doc-section-examples}
+
+```{python}
+#| echo: false
+{{< include "../_setup.qmd" >}}
+```
+**Note:** the submitting lab column uses reference codes from WDRS.
+There is a long list of reference codes, but not all labs have a reference code.
+Also, **LIMS may not have standard naming conventions for labs**. Therefore we need
+to map labs to their reference codes as best as we can, but then for labs that are not
+on the list, default their code to `27782022` and use the text field `SUBMITTER_OTHER`
+to fill in the lab name from LIMS
+
+
+```{python}
+import polars as pl
+import polars.selectors as cs
+import wadoh_subtyping.transform as tf
+from wadoh_raccoon.utils import helpers
+
+# Main DataFrame (df)
+data = pl.DataFrame({
+    "SubmittingLab": [
+        "Labcorp - Seattle Cherry Hill",
+        "Providence Reg Med Ctr - Everett",
+        "University of Washington Medical Center",
+        "Some Random Lab"
+    ]
+})
+
+df = (
+    data
+    .with_columns(
+        SUBMITTER = tf.submitting_lab(submitter="SubmittingLab"),
+    )
+    .with_columns(
+        SUBMITTER_OTHER = tf.submitter_other(
+            submitting_lab='SUBMITTER',
+            submitter='SubmittingLab'
+        )
+    )
+)
+
+helpers.gt_style(df_inp=df)
+
+
+```

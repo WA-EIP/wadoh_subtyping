@@ -1,0 +1,48 @@
+# Function reference {.doc .doc-index}
+
+## Transformation Functions
+
+Main functions for all data transformations/cleaning
+
+| | |
+| --- | --- |
+| [wdrs_result](wdrs_result.qmd#wadoh_subtyping.transform.wdrs_result) | WDRS Test Result |
+| [col_test_result](col_test_result.qmd#wadoh_subtyping.transform.col_test_result) | WDRS Test Result |
+| [wdrs_result_summary](wdrs_result_summary.qmd#wadoh_subtyping.transform.wdrs_result_summary) | wdrs result summary |
+| [wdrs_test_performed](wdrs_test_performed.qmd#wadoh_subtyping.transform.wdrs_test_performed) | WDRS Test Performed |
+| [col_test_performed_desc](col_test_performed_desc.qmd#wadoh_subtyping.transform.col_test_performed_desc) | WDRS Test Performed Description |
+| [wdrs_specimen_source](wdrs_specimen_source.qmd#wadoh_subtyping.transform.wdrs_specimen_source) | WDRS Specimen Source |
+| [specimen_source_site](specimen_source_site.qmd#wadoh_subtyping.transform.specimen_source_site) | WDRS Specimen Type  |
+| [wdrs_specimen_type](wdrs_specimen_type.qmd#wadoh_subtyping.transform.wdrs_specimen_type) | WDRS Specimen Type  |
+| [specimen_type](specimen_type.qmd#wadoh_subtyping.transform.specimen_type) | Specimen Type |
+| [collection_date](collection_date.qmd#wadoh_subtyping.transform.collection_date) | Specimen Collection Date |
+| [submitting_lab](submitting_lab.qmd#wadoh_subtyping.transform.submitting_lab) | Submitting Lab |
+| [submitter_other](submitter_other.qmd#wadoh_subtyping.transform.submitter_other) | Submitting Lab |
+| [performing_lab](performing_lab.qmd#wadoh_subtyping.transform.performing_lab) | Performing Lab |
+| [transform](transform.qmd#wadoh_subtyping.transform.transform) | Transform |
+| [dedup_roster](dedup_roster.qmd#wadoh_subtyping.transform.dedup_roster) | Dedup Roster |
+| [create_roster](create_roster.qmd#wadoh_subtyping.transform.create_roster) | Create Roster |
+
+## QA Functions
+
+Functions that flag unexpected or poor quality data
+
+| | |
+| --- | --- |
+| [qa_wdrs_test_performed](qa_wdrs_test_performed.qmd#wadoh_subtyping.qa.qa_wdrs_test_performed) | QA wdrs_test_performed |
+| [qa_test_performed_desc](qa_test_performed_desc.qmd#wadoh_subtyping.qa.qa_test_performed_desc) | QA test_performed_desc |
+| [qa_wdrs_result](qa_wdrs_result.qmd#wadoh_subtyping.qa.qa_wdrs_result) | QA wdrs_result |
+| [qa_wdrs_result_summary](qa_wdrs_result_summary.qmd#wadoh_subtyping.qa.qa_wdrs_result_summary) | QA wdrs_result_summary |
+| [qa_multiple_subtypes](qa_multiple_subtypes.qmd#wadoh_subtyping.qa.qa_multiple_subtypes) | QA multiple_subtypes |
+
+## Processor Functions
+
+Functions that do the heavy lifting and orchestrate the workflow
+
+| | |
+| --- | --- |
+| [run_pulls](run_pulls.qmd#wadoh_subtyping.processor.run_pulls) | Pull All Data |
+| [wrangle_phl](wrangle_phl.qmd#wadoh_subtyping.processor.wrangle_phl) | Wrangle PHL |
+| [write_phl](write_phl.qmd#wadoh_subtyping.processor.write_phl) | Write PHL |
+| [rematch](rematch.qmd#wadoh_subtyping.processor.rematch) |  |
+| [write_rematch](write_rematch.qmd#wadoh_subtyping.processor.write_rematch) |  |

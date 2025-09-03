@@ -1,0 +1,19 @@
+# transform { #wadoh_subtyping.transform.transform }
+
+```python
+transform.transform(df: pl.DataFrame)
+```
+
+Transform
+
+## Usage {.doc-section .doc-section-usage}
+
+This function calls all the transformation functions at once. To be used against a pl.DataFrame
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+import wadoh_subtyping.transform as tf
+
+df = tf.transform(df=phl_df)
+```

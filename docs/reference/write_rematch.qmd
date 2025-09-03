@@ -1,0 +1,6 @@
+# write_rematch { #wadoh_subtyping.processor.write_rematch }
+
+```python
+processor.write_rematch(rematch_res, pull_res)
+```
+

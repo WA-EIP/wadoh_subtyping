@@ -1,0 +1,25 @@
+# qa_test_performed_desc { #wadoh_subtyping.qa.qa_test_performed_desc }
+
+```python
+qa.qa_test_performed_desc(test_perf_output: str)
+```
+
+QA test_performed_desc
+
+## Usage {.doc-section .doc-section-usage}
+
+To be used in a .with_columns() statement
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+from wadoh_subtyping import qa
+from wadoh_raccoon.utils import helpers
+
+df = (
+    df
+    .with_columns(
+        qa.qa_test_performed_desc(test_perf_output=test_perf_output)
+    )
+)
+```
