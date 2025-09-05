@@ -2306,7 +2306,7 @@ wheels = [
 [[package]]
 name = "wadoh-raccoon"
 version = "0.2.0"
-source = { git = "https://github.com/NW-PaGe/wadoh_raccoon.git?rev=feature%2Fshig-fuzzy-tests#5498fb9223395ecf8e4fa2aa1598c59efbf29a88" }
+source = { git = "https://github.com/NW-PaGe/wadoh_raccoon?rev=feature%2Fshig-fuzzy-tests#5498fb9223395ecf8e4fa2aa1598c59efbf29a88" }
 dependencies = [
     { name = "azure-identity" },
     { name = "azure-keyvault-secrets" },
@@ -2318,7 +2318,7 @@ dependencies = [
 
 [[package]]
 name = "wadoh-subtyping"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "polars" },
@@ -2334,12 +2334,15 @@ dev = [
     { name = "pytest" },
     { name = "quartodoc" },
 ]
+internal = [
+    { name = "wadoh-raccoon" },
+]
 
 [package.metadata]
 requires-dist = [
     { name = "polars", specifier = ">=1.32.3" },
     { name = "pyarrow", specifier = ">=21.0.0" },
-    { name = "wadoh-raccoon", git = "https://github.com/NW-PaGe/wadoh_raccoon.git?rev=feature%2Fshig-fuzzy-tests" },
+    { name = "wadoh-raccoon", git = "https://github.com/NW-PaGe/wadoh_raccoon?rev=feature%2Fshig-fuzzy-tests" },
 ]
 
 [package.metadata.requires-dev]
@@ -2350,6 +2353,7 @@ dev = [
     { name = "pytest", specifier = ">=8.4.1" },
     { name = "quartodoc", specifier = ">=0.11.1" },
 ]
+internal = [{ name = "wadoh-raccoon", git = "https://github.com/NW-PaGe/wadoh_raccoon?rev=feature%2Fshig-fuzzy-tests" }]
 
 [[package]]
 name = "watchdog"
