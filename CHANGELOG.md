@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.1...v0.1.2) (2025-10-09)
+
+
+### Bug Fixes
+
+* add suffix to create roster function on join ([6506ff3](https://github.com/WA-EIP/wadoh_subtyping/commit/6506ff3a7e219dce29446f975c7b0ce3c13dde9b))
+
+
+
 ## [0.1.1](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.0...v0.1.1) (2025-09-03)
 
 
