@@ -1638,7 +1638,7 @@ def create_roster(matched_and_transformed_df: pl.DataFrame, respnet: pl.DataFram
         .filter((pl.col('WDRS_RESULT_SUMMARY').str.contains('G_POSITIVE')) & (pl.col('WDRS_RESULT') != 'RP'))
         # .filter((pl.col('WDRS_RESULT') != 'RP'))
         # join to original respnet table to get all columns
-        .join(respnet,on='CASE_ID',how='left')
+        .join(respnet,on='CASE_ID',how='left', suffix="_JOIN_SUFFIX")
         .unique()
 
         # now get all the columns so we can import it to WDRS
