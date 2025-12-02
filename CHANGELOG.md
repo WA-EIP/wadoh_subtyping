@@ -1,3 +1,12 @@
+# [0.2.0](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.2...v0.2.0) (2025-12-02)
+
+
+### Features
+
+* use sparkpl to convert spark to polars and vice versa ([a614031](https://github.com/WA-EIP/wadoh_subtyping/commit/a6140315f5b126cb51d53e963f1461866642d14c))
+
+
+
 ## [0.1.2](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.1...v0.1.2) (2025-10-09)
 
 
