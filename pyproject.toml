@@ -8,8 +8,11 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
+    "databricks-sdk>=0.113.0",
     "polars>=1.32.3",
     "pyarrow>=21.0.0",
+    "pycap>=2.7.0",
+    "sparkpl>=2.0.1",
     "wadoh-raccoon",
 ]
 
