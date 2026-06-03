@@ -1,7 +1,8 @@
 import polars as pl
 import polars.selectors as cs
-from wadoh_raccoon.utils import helpers
+# import src.subtype_link.utils.helpers as helpers
 from datetime import date
+from wadoh_raccoon.utils.helpers import date_format
 
 def performing_lab() -> pl.Expr:
     """ Performing Lab
@@ -21,8 +22,8 @@ def performing_lab() -> pl.Expr:
     ```{python}
     import polars as pl
     import polars.selectors as cs
-    import wadoh_subtyping.transform as tf
-    import wadoh_raccoon.utils.helpers as helpers
+    import src.subtype_link.transformations as tf
+    import src.subtype_link.utils.helpers as helpers
 
     # Main DataFrame (df)
     df = pl.DataFrame({
@@ -79,8 +80,8 @@ def submitting_lab(submitter: str) -> pl.Expr:
     ```{python}
     import polars as pl
     import polars.selectors as cs
-    import wadoh_subtyping.transform as tf
-    from wadoh_raccoon.utils import helpers
+    import src.subtype_link.transformations as tf
+    import src.subtype_link.utils.helpers as helpers
 
     # Main DataFrame (df)
     data = pl.DataFrame({
@@ -136,6 +137,7 @@ def submitting_lab(submitter: str) -> pl.Expr:
         "Kadlec Regional Medical Center": "83089",
         "Virginia Mason Medical Center": "88415"
     }
+    
 
     return (
         pl.col(submitter).replace_strict(hospital_data,default='27782022')
@@ -172,8 +174,8 @@ def submitter_other(submitting_lab: str,submitter: str) -> pl.Expr:
     ```{python}
     import polars as pl
     import polars.selectors as cs
-    import wadoh_subtyping.transform as tf
-    from wadoh_raccoon.utils import helpers
+    import src.subtype_link.transformations as tf
+    import src.subtype_link.utils.helpers as helpers
 
     # Main DataFrame (df)
     data = pl.DataFrame({
@@ -241,8 +243,8 @@ def collection_date(df,col: str):
 
     ```{python}
     import polars as pl
-    import wadoh_subtyping.transform as tf
-    from wadoh_raccoon.utils import helpers
+    import src.subtype_link.transformations as tf
+    import src.subtype_link.utils.helpers as helpers
 
     df = pl.DataFrame({
         "submitted_date": [
@@ -266,7 +268,7 @@ def collection_date(df,col: str):
 
 
     """
-    return helpers.date_format(df,col)
+    return date_format(df,col)
 
 def specimen_type(spec_type_col: str):
         """ Specimen Type
@@ -289,8 +291,8 @@ def specimen_type(spec_type_col: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "SpecimenSource": [
@@ -327,6 +329,8 @@ def specimen_type(spec_type_col: str):
             # Sputum
             'Sputum': 'Sputum'
 
+            # unsure what VTM or raw sludge maps to
+            # note that if LIMS has different spelling or case, this mapping wont work. it will default to null
         }
 
         return(
@@ -354,8 +358,8 @@ def wdrs_specimen_type(wdrs_spec_type_col: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "submitter": ["PHL", "PHL", "PHL"],
@@ -422,8 +426,8 @@ def specimen_source_site(spec_source_col: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "submitter": ["PHL", "PHL", "PHL"],
@@ -492,8 +496,8 @@ def wdrs_specimen_source(wdrs_spec_source_col: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "SpecimenSource": [
@@ -561,8 +565,8 @@ def wdrs_test_performed(wdrs_test_perf_col: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -661,6 +665,7 @@ def wdrs_test_performed(wdrs_test_perf_col: str):
 def col_test_performed_desc(wdrs_test_perf_col: str):
         """ WDRS Test Performed Description
 
+        
         Usage
         -----
         The function can be called into a .with_columns() statement. It will reference the dataframe's status column and output a cleaned version of it.
@@ -678,8 +683,8 @@ def col_test_performed_desc(wdrs_test_perf_col: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -869,8 +874,8 @@ def wdrs_result(subtype: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -1112,19 +1117,19 @@ def wdrs_result(subtype: str):
         :::
 
         """
-        # result_map = {
-        #     'None': 'G_FLU_ND',
-        #     'Influenza virus not detected by RT-PCR {60}': 'G_FLU_ND',
-        #     'Inconclusive - sample below limit of detection of test {61}': 'G_FLU_ND',
-        #     'Influenza A virus not detected by RT-PCR {62}': 'G_FLU_ND',
-        #     'Influenza A virus detected by RT-PCR; Subtype undetected {66}': 'G_FLU_ND',
-        #     'Inconclusive {50}': 'G_FLU_ND',
-        #     'Inconclusive - Invalid Result {68}': 'G_FLU_ND',
+        result_map = {
+            'None': 'G_FLU_ND',
+            'Influenza virus not detected by RT-PCR {60}': 'G_FLU_ND',
+            'Inconclusive - sample below limit of detection of test {61}': 'G_FLU_ND',
+            'Influenza A virus not detected by RT-PCR {62}': 'G_FLU_ND',
+            'Influenza A virus detected by RT-PCR; Subtype undetected {66}': 'G_FLU_ND',
+            'Inconclusive {50}': 'G_FLU_ND',
+            'Inconclusive - Invalid Result {68}': 'G_FLU_ND',
 
-        #     'Influenza A(2009 H1N1) virus detected by RT-PCR {65}': 'G_FLU_A_(09_PDM_H1N1)_D',
-        #     'Influenza A(H3) virus detected by RT-PCR {64}': 'G_FLU_A_(H3)_D',
-        #     'Influenza A(H5) virus detected by RT-PCR {69}': 'G_FLU_A_(H5)_D'
-        # }
+            'Influenza A(2009 H1N1) virus detected by RT-PCR {65}': 'G_FLU_A_(09_PDM_H1N1)_D',
+            'Influenza A(H3) virus detected by RT-PCR {64}': 'G_FLU_A_(H3)_D',
+            'Influenza A(H5) virus detected by RT-PCR {69}': 'G_FLU_A_(H5)_D'
+        }
 
         return(
             
@@ -1181,8 +1186,8 @@ def col_test_result(subtype: str):
         ```
         ```{python}
         import polars as pl
-        import wadoh_subtyping.transform as tf
-        from wadoh_raccoon.utils import helpers
+        import src.subtype_link.transformations as tf
+        import src.subtype_link.utils.helpers as helpers
 
         df = pl.DataFrame({
             "ResultTextConclusion": [
@@ -1479,8 +1484,8 @@ def wdrs_result_summary(wdrs_res_col: str):
     {{< include "../_setup.qmd" >}}
     ```
     ```{python}
-    import wadoh_subtyping.transform as tf
-    from wadoh_raccoon.utils import helpers
+    import src.subtype_link.transformations as tf
+    from src.subtype_link.utils import helpers
     import polars as pl
 
     df = pl.DataFrame({
@@ -1524,7 +1529,7 @@ def transform(df: pl.DataFrame):
     --------
     
     ```python
-    import wadoh_subtyping.transform as tf
+    import src.subtype_link.transformations as tf
 
     df = tf.transform(df=phl_df)
     ```
@@ -1548,23 +1553,23 @@ def transform(df: pl.DataFrame):
             WDRS_RESULT = wdrs_result(subtype=subtype),
             WDRS_TEST_PERFORMED = wdrs_test_performed(wdrs_test_perf_col),
             WDRS_SPECIMEN_SOURCE = wdrs_specimen_source(wdrs_spec_source_col),
-            SPECIMEN_SOURCE_SITE = specimen_source_site(spec_source_col),
+            # SPECIMEN_SOURCE_SITE = specimen_source_site(spec_source_col),
             WDRS_SPECIMEN_TYPE = wdrs_specimen_type(wdrs_spec_type_col),
-            SPECIMEN_TYPE = specimen_type(spec_type_col),
+            # SPECIMEN_TYPE = specimen_type(spec_type_col),
             SPECIMEN_COLLECTION_DTTM = collection_date(df=df,col=collection_date_col),
             SPECIMEN_RECEIVED_DTTM = collection_date(df=df,col=date_received_col),
             SUBMITTER = submitting_lab(submitter),
             WDRS_PERFORMING_ORG = performing_lab(),
             WDRS_RESULT_SUMMARY = wdrs_result_summary(wdrs_res_col),
-            TEST_PERFORMED_DESC = col_test_performed_desc(wdrs_test_perf_col),
-            TEST_RESULT = col_test_result(subtype=subtype),
+            # TEST_PERFORMED_DESC = col_test_performed_desc(wdrs_test_perf_col),
+            # TEST_RESULT = col_test_result(subtype=subtype),
             PERFORMING_LAB_ENTIRE_REPORT = performing_lab()
         )
         .with_columns(
             # the SUBMITTER col gets created above
             # we need the result of it to populate the OTHER column
             SUBMITTER_OTHER = submitter_other(submitting_lab='SUBMITTER',submitter=submitter),
-            PatientBirthDate = helpers.date_format(df,'PatientBirthDate')
+            PatientBirthDate = date_format(df,'PatientBirthDate')
         )
     )
     
@@ -1580,7 +1585,7 @@ def dedup_roster(roster_inp: pl.DataFrame,reference_inp: pl.DataFrame):
     Examples
     --------
     ```python
-    import wadoh_subtyping.transform as tf
+    import src.subtype_link.transformations as tf
 
     final_roster = tf.dedup_roster(roster_inp=created_roster,reference_inp=wdrs_table)
     ```
@@ -1625,7 +1630,7 @@ def create_roster(matched_and_transformed_df: pl.DataFrame, respnet: pl.DataFram
     --------
 
     ```python
-    import wadoh_subtyping.transformations as tf
+    import src.subtype_link.transformations as tf
 
     create_roster = tf.create_roster(matched_and_transformed_df=fuzzy_matched,respnet=wdrs_table) 
     ```
@@ -1664,7 +1669,7 @@ def create_roster(matched_and_transformed_df: pl.DataFrame, respnet: pl.DataFram
             RACE_AMERICAN_INDIAN_OR_ALASKA_NATIVE=None,
             RACE_ASIAN=None,
             RACE_BLACK_OR_AFRICAN_AMERICAN=None,
-            RACE_NATIVE_HAWIAIIAN_OR_OTHER_PACIFIC_ISLANDER=None,
+            RACE_NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER=None,
             RACE_WHITE=None,
             RACE_OTHER_RACE=None,
             RACE_OTHER_RACE_SPECIFY=None,
@@ -1687,13 +1692,13 @@ def create_roster(matched_and_transformed_df: pl.DataFrame, respnet: pl.DataFram
             SPECIMEN_RECEIVED_DTTM=pl.col('SPECIMEN_RECEIVED_DTTM'),
             SPECIMEN_ID_ACCESSION_NUM_MANUAL=None,
             WDRS_SPECIMEN_TYPE=pl.col('WDRS_SPECIMEN_TYPE'),
-            SPECIMEN_TYPE=pl.col('SPECIMEN_TYPE'),
+            SPECIMEN_TYPE=pl.lit(""),
             WDRS_SPECIMEN_SOURCE=pl.col('WDRS_SPECIMEN_SOURCE'),
-            SPECIMEN_SOURCE_SITE=pl.col('SPECIMEN_SOURCE_SITE'),
+            SPECIMEN_SOURCE_SITE=pl.lit(""),
             WDRS_TEST_PERFORMED=pl.col('WDRS_TEST_PERFORMED'),
-            TEST_PERFORMED_DESC=pl.col('TEST_PERFORMED_DESC'),
+            TEST_PERFORMED_DESC=pl.lit(""),
             WDRS_RESULT=pl.col('WDRS_RESULT'),
-            TEST_RESULT=pl.col('TEST_RESULT'),
+            TEST_RESULT=pl.lit(""),
             WDRS_RESULT_SUMMARY=pl.col('WDRS_RESULT_SUMMARY'),
             SUBMITTER=pl.col('SUBMITTER'),
             SUBMITTER_OTHER=pl.col('SUBMITTER_OTHER'),
@@ -1724,7 +1729,7 @@ def create_roster(matched_and_transformed_df: pl.DataFrame, respnet: pl.DataFram
             'RACE_AMERICAN_INDIAN_OR_ALASKA_NATIVE',
             'RACE_ASIAN',
             'RACE_BLACK_OR_AFRICAN_AMERICAN',
-            'RACE_NATIVE_HAWIAIIAN_OR_OTHER_PACIFIC_ISLANDER',
+            'RACE_NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER',
             'RACE_WHITE',
             'RACE_OTHER_RACE',
             'RACE_OTHER_RACE_SPECIFY',
