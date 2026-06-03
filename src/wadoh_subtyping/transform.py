@@ -5,7 +5,7 @@ from datetime import date
 from wadoh_raccoon.utils.helpers import date_format
 
 def performing_lab() -> pl.Expr:
-    """ Performing Lab
+    """ Performing Lab 
 
     Usage
     -----
