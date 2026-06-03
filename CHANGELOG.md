@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.2.0...v0.3.0) (2026-06-03)
+
+
+### Features
+
+* modularize functions ([4296a45](https://github.com/WA-EIP/wadoh_subtyping/commit/4296a452d8e270dbe793e28ed38afca03a3e8a68))
+
+
+
 # [0.2.0](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.2...v0.2.0) (2025-12-02)
 
 
