@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.0...v0.3.1) (2026-06-03)
+
+
+### Bug Fixes
+
+* trigger pkg build ([ad64b5f](https://github.com/WA-EIP/wadoh_subtyping/commit/ad64b5f811861d7158c8a82c33d4f3962040ea07))
+
+
+
 # [0.3.0](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.2.0...v0.3.0) (2026-06-03)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * update func test ([4c1d219](https://github.com/WA-EIP/wadoh_subtyping/commit/4c1d219cee0c917d647c22fb642b2fe5ef3b3e02))
-
-
-
-# [0.1.0](https://github.com/WA-EIP/wadoh_subtyping/compare/e8bbc1185bfa97e9482180596146fd68472a3028...v0.1.0) (2025-09-03)
-
-
-### Bug Fixes
-
-* update func test ([e8bbc11](https://github.com/WA-EIP/wadoh_subtyping/commit/e8bbc1185bfa97e9482180596146fd68472a3028))
 
 
 
