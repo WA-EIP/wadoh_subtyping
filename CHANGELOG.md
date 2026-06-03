@@ -1,3 +1,12 @@
+## [0.3.2](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.1...v0.3.2) (2026-06-03)
+
+
+### Bug Fixes
+
+* trigger pkg build ([e1a5bf2](https://github.com/WA-EIP/wadoh_subtyping/commit/e1a5bf2aa1a702b318e065927a6d1f0ebed649d4))
+
+
+
 ## [0.3.1](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.0...v0.3.1) (2026-06-03)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * add suffix to create roster function on join ([6506ff3](https://github.com/WA-EIP/wadoh_subtyping/commit/6506ff3a7e219dce29446f975c7b0ce3c13dde9b))
-
-
-
-## [0.1.1](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.0...v0.1.1) (2025-09-03)
-
-
-### Bug Fixes
-
-* update func test ([4c1d219](https://github.com/WA-EIP/wadoh_subtyping/commit/4c1d219cee0c917d647c22fb642b2fe5ef3b3e02))
 
 
 
