@@ -1,6 +1,7 @@
 name: Build, Test, Changelog, and Release Python Package
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -33,6 +34,9 @@ jobs:
     name: Generate Changelog, build, and release
     runs-on: ubuntu-latest
     needs: unit-tests  # This makes sure the build job runs first
+
+    outputs:
+      released: ${{ steps.changelog.outputs.skipped == 'false' }}
 
     steps:
       # Checkout the code
@@ -90,6 +94,7 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   publish:
     name: publish to pypi
     needs: build-and-release
