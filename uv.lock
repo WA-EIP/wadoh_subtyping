@@ -2525,13 +2525,14 @@ wheels = [
 
 [[package]]
 name = "wadoh-subtyping"
-version = "0.1.2"
+version = "0.3.1"
 source = { editable = "." }
 dependencies = [
     { name = "databricks-sdk" },
     { name = "polars" },
     { name = "pyarrow" },
     { name = "pycap" },
+    { name = "pyyaml" },
     { name = "sparkpl" },
     { name = "wadoh-raccoon" },
 ]
@@ -2551,6 +2552,7 @@ requires-dist = [
     { name = "polars", specifier = ">=1.32.3" },
     { name = "pyarrow", specifier = ">=21.0.0" },
     { name = "pycap", specifier = ">=2.7.0" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "sparkpl", specifier = ">=2.0.1" },
     { name = "wadoh-raccoon", specifier = ">=0.4.3" },
 ]

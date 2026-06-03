@@ -12,6 +12,7 @@ dependencies = [
     "polars>=1.32.3",
     "pyarrow>=21.0.0",
     "pycap>=2.7.0",
+    "pyyaml>=6.0.2",
     "sparkpl>=2.0.1",
     "wadoh-raccoon>=0.4.3",
 ]
