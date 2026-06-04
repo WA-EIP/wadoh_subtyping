@@ -1,3 +1,12 @@
+## [0.3.3](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.2...v0.3.3) (2026-06-03)
+
+
+### Bug Fixes
+
+* add pyyaml ([7c12ea5](https://github.com/WA-EIP/wadoh_subtyping/commit/7c12ea58cda2fb46827524c323369c5a510b83ba))
+
+
+
 ## [0.3.2](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.1...v0.3.2) (2026-06-03)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * use sparkpl to convert spark to polars and vice versa ([a614031](https://github.com/WA-EIP/wadoh_subtyping/commit/a6140315f5b126cb51d53e963f1461866642d14c))
-
-
-
-## [0.1.2](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.1...v0.1.2) (2025-10-09)
-
-
-### Bug Fixes
-
-* add suffix to create roster function on join ([6506ff3](https://github.com/WA-EIP/wadoh_subtyping/commit/6506ff3a7e219dce29446f975c7b0ce3c13dde9b))
 
 
 
