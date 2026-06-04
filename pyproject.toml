@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "databricks-sdk>=0.113.0",
+    "duckdb>=1.5.3",
     "polars>=1.32.3",
     "pyarrow>=21.0.0",
     "pycap>=2.7.0",
