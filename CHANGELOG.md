@@ -1,3 +1,12 @@
+## [0.3.4](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.3...v0.3.4) (2026-06-04)
+
+
+### Bug Fixes
+
+* add duckdb ([ed3ceaf](https://github.com/WA-EIP/wadoh_subtyping/commit/ed3ceaf823b9de34764ecc72bd1b7798caae2425))
+
+
+
 ## [0.3.3](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.2...v0.3.3) (2026-06-03)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * modularize functions ([4296a45](https://github.com/WA-EIP/wadoh_subtyping/commit/4296a452d8e270dbe793e28ed38afca03a3e8a68))
-
-
-
-# [0.2.0](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.1.2...v0.2.0) (2025-12-02)
-
-
-### Features
-
-* use sparkpl to convert spark to polars and vice versa ([a614031](https://github.com/WA-EIP/wadoh_subtyping/commit/a6140315f5b126cb51d53e963f1461866642d14c))
 
 
 
