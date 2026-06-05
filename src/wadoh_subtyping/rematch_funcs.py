@@ -29,7 +29,7 @@ def rematch(pull_res):
 
     # # try to match the records to cases in WDRS
     fuzzy_init = dfm.DataFrameMatcher(
-        df_subm=submissions_to_fuzzy,
+        df_src=submissions_to_fuzzy,
         df_ref=pull_res.respnet,
         first_name=('first_name_clean', 'FIRST_NAME'),
         last_name=('last_name_clean', 'LAST_NAME'),
