@@ -1,3 +1,12 @@
+## [0.3.5](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.4...v0.3.5) (2026-06-05)
+
+
+### Bug Fixes
+
+* make extract dbx/local agnostic, fix matching funcs ([2d83bf3](https://github.com/WA-EIP/wadoh_subtyping/commit/2d83bf39580b9c76f4821637bfd8c8d40fab995e))
+
+
+
 ## [0.3.4](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.3...v0.3.4) (2026-06-04)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * trigger pkg build ([ad64b5f](https://github.com/WA-EIP/wadoh_subtyping/commit/ad64b5f811861d7158c8a82c33d4f3962040ea07))
-
-
-
-# [0.3.0](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.2.0...v0.3.0) (2026-06-03)
-
-
-### Features
-
-* modularize functions ([4296a45](https://github.com/WA-EIP/wadoh_subtyping/commit/4296a452d8e270dbe793e28ed38afca03a3e8a68))
 
 
 
