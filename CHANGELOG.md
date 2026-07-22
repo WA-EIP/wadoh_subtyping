@@ -1,3 +1,12 @@
+## [0.3.6](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.5...v0.3.6) (2026-07-22)
+
+
+### Bug Fixes
+
+* pyarrow has vulnerability that prevents DOH from installing (even tho it has nothing to do with our system) ([8f0eb3c](https://github.com/WA-EIP/wadoh_subtyping/commit/8f0eb3cd7c28333d61e6ddc93f449dc56359411c))
+
+
+
 ## [0.3.5](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.4...v0.3.5) (2026-06-05)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * trigger pkg build ([e1a5bf2](https://github.com/WA-EIP/wadoh_subtyping/commit/e1a5bf2aa1a702b318e065927a6d1f0ebed649d4))
-
-
-
-## [0.3.1](https://github.com/WA-EIP/wadoh_subtyping/compare/v0.3.0...v0.3.1) (2026-06-03)
-
-
-### Bug Fixes
-
-* trigger pkg build ([ad64b5f](https://github.com/WA-EIP/wadoh_subtyping/commit/ad64b5f811861d7158c8a82c33d4f3962040ea07))
 
 
 
