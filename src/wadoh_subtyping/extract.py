@@ -326,12 +326,15 @@ def run_pulls(duckdb_path,cases_joined_query,respnet_investigation_query, respne
     """
     if dbx:
 
-        it = dbx_duckdb(duckdb_path=duckdb_path)
+        con = dbx_duckdb(duckdb_path=duckdb_path)
         pt = phl_tables(query, dbx=True)
         wt = wdrs_tables(cases_joined_query,respnet_investigation_query, respnet_wizard_query, dbx=True)
+        net_drive = ""
     
     else:
         it = internal_tables()
+        con = it.con
+        it.net_drive = net_drive
         pt = phl_tables(query, dbx=False)
         wt = wdrs_tables(cases_joined_query,respnet_investigation_query, respnet_wizard_query, dbx=False)
 
@@ -347,8 +350,8 @@ def run_pulls(duckdb_path,cases_joined_query,respnet_investigation_query, respne
         respnet=respnet,
         respnet_wizard=wt.respnet_wizard,
         respnet_investigation=wt.respnet_investigation,
-        con=it.con,
-        net_drive=it.net_drive,
+        con=con,
+        net_drive=net_drive,
         phl_df=pt.phl_df,
         received_submissions_df=pt.received_submissions_df,
         base_cols=pt.base_cols
