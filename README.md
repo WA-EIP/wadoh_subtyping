@@ -1,5 +1,5 @@
 # wadoh_subtyping
-A Python package for transforming and processing RESPNET subtyping data
+A Python package for transforming influenza subtyping data from LIMS and linking it to hospitalization case data in WDRS at Washington State DOH.
 
 See our github page for function references and docs [https://nw-page.github.io/wadoh_raccoon/](https://wa-eip.github.io/wadoh_subtyping/)
 
