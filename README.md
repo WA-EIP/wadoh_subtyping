@@ -16,7 +16,7 @@ uv pip install wadoh_subtyping
 
 ## Usage
 
-This package transforms and matches subtyping metadata from LIMS to hospitalization case data in the Washington Disease Reporting System (WDRS). It checks for matches on demographics or a medical record number, and then joins the subtyping information  influenza hospitalization case data and uploads it into WDRS.
+This package transforms and matches subtyping metadata from LIMS to hospitalization case data in the Washington Disease Reporting System (WDRS). It checks for matches on demographics or a medical record number, and then joins the subtyping information to influenza hospitalization case data and uploads it into WDRS.
 
 The transformations are specific to LIMS and WDRS column names. 
 
