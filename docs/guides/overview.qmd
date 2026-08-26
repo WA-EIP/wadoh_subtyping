@@ -1,0 +1,454 @@
+---
+title: Overview
+description: Flowcharts and such
+author: frank
+date: 2/13/2025
+date-modified: today
+format: 
+  html: 
+    toc: true
+    lightbox: true
+
+execute: 
+  freeze: true
+  eval: false
+
+---
+
+:::{.box}
+## **Objectives** {{< bi journals >}}
+
+- flowcharts
+- process details
+- general instructions
+
+for more details about the functions, see the [reference section](../reference/index.qmd)
+:::
+
+
+## overview respnet flow
+
+Here's a basic flowchart of data input/outputs in the respnet subtyping project.
+
+![A basic flow diagram for respnet subtyping ](images/respnet_chart.png){#fig-basic-chart}
+
+:::{.box}
+1. A lab will either send a specimen to be subtyped by PHL, or they will do the subtyping themselves and send the data to us via MFT. 
+2. DIQA's main.py script will pull that data from LIMS and MFT and attempt to match it to demographics in the WDRS entire table. 
+3. main.py will output a roster and keep records of records with QA issues or no matches 
+4. The matched roster will get uploaded to the WDRS respnet_investigation table where a DIQA script will pull and send to REDCap for CDC ingest
+:::
+
+## detailed flow
+
+The file structure of the repo is divided into three main folders, `notebooks`, `queries`, and `src`. (note: click on the image to the right to zoom in)
+
+:::{.column-margin}
+![Folder structure for the repo](images/folder_structure.png){#fig-folder-structure}
+:::
+
+:::{.box}
+1. **notebooks** - here are the main scripts that are automated. 
+    -    `main.py` imports all the functions and executes them @sec-main
+    -    `duckdb.py` is a script for managing all the external SQL tables
+2. **queries** - all the SQL queries are in the `sqlqueries.py` script
+3. **src** 
+    -    `utils/helpers.py` has general functions that are used by multiple other functions or scripts. For example, there is a function for date formatting here that is called into many other functions/scripts.
+    -    `matching.py` here are functions for fuzzy and accession matching
+    -    `processor.py` this script connects all the functions together to avoid putting logic into `main.py` (more here @sec-processor)
+    -    `transformations.py` contains all the functions used for column transformations. For example, PHL data is ingested and the variables need to be transfored/mapped to their WDRS equivalent. Things like `TestResult` variable from PHL needs to be transformed into `WDRS__RESULT`.
+:::
+
+### main.py {#sec-main}
+
+main.py just serves as a trigger script. No conditional logic exists here, it just executes functions found in other scripts. It looks like this:
+
+- Read in data
+```python
+import src.subtype_link.processor as processor
+
+# read WDRS
+# the processor contains general pulls and objects used in all processing (WDRS pulls, duckdb pull, etc)
+instance = processor.data_processor()
+
+# read PHL
+(
+    phl_df,
+    received_submissions_df, 
+    base_cols
+) = instance.read_phl()
+```
+
+- Match the data
+
+```python
+# process phl
+(
+    fuzzy_matched_review_df, 
+    fuzzy_without_demo_df, 
+    fuzzy_matched_none, 
+    fuzzy_matched_roster,
+    transformed_df,
+    submissions_to_fuzzy
+) = instance.process_phl(phl_df, received_submissions_df)
+```
+
+- Write the data
+
+```python
+instance.write_phl(
+    received_submissions_df,
+    fuzzy_matched_review_df,
+    fuzzy_without_demo_df,
+    fuzzy_matched_none, 
+    fuzzy_matched_roster,
+    base_cols
+)
+```
+
+As you can see, there is no actual logic here and it is a very simple script by design. It's just a trigger.
+
+The `processor` function takes care of the actual conditional logic needed to connect the transformation + matching functions and orchestrate the worflow. See @sec-processor for more info.
+
+
+### processor.py {#sec-processor}
+
+The `processor` class takes care of the actual conditional logic needed to connect the transformation + matching functions and orchestrate the worflow. 
+
+#### __init__
+
+First the `init` function pulls WDRS data. It's set up like this so that when the class is called the WDRS data will automatically get pulled, that way the PHL and MFT functions can use the same WDRS data when matching and the WDRS data only gets read in once.
+
+```python
+# read in WDRS data  
+# use with PHL and MFT
+self.cases = pl.read_database(
+    query=sqlqueries.pos_flu_entire_tbl,
+    connection=conn_wdrs
+)
+
+```
+
+It also reads in the internal DIQA tables. In specific, we use the `no_match_tbl` table in the process to try and re-attempt a link to WDRS with every run. 
+
+```python
+with open("config.yaml") as f:
+    config = yaml.load(f,Loader=yaml.SafeLoader)['default']
+    net_drive = config['net_drive']
+
+self.con = dd.connect(f'{net_drive}/respnet.db')
+```
+
+#### read_phl
+
+This function reads in data from LIMS. It uses the LIMS connection found in Azure KeyVault and pulls in the subtyping table. 
+
+```python
+# Get LIMS db connection params from Az KV
+lims_server, lims_db, lims_trusted, lims_intent = helpers.get_secrets(
+    ['lims-server', 
+        'lims-db', 
+        'lims-trusted', 
+        'lims-intent']
+        )
+
+# Establish connection to LIMS=
+conn_lims = pyodbc.connect(DRIVER='SQL Server Native Client 11.0',
+                        SERVER=lims_server,
+                        DATABASE=lims_db,
+                        Trusted_Connection=lims_trusted,
+                        ApplicationIntent=lims_intent)
+print('Connection to LIMS established:')
+
+phl = pl.read_database(
+    query=sqlqueries.phl,
+    connection=conn_lims
+)
+```
+
+it will save a receipt of the data as a json column in the received_submissions_tbl in duckdb
+
+```python
+# make received submissions df
+# useful for collecting all submissions in the same format
+received_submissions_df = (
+    helpers.jsonify(df_inp=phl,grouping_col="PHLAccessionNumber")
+)
+
+# unnest it to get the submission_number
+# subset out records from df_to_process_inp with submission number in list_to_fuzzy, assign to submissions_to_fuzzy_df
+phl_df = (
+    helpers.dejsonify(received_submissions_df,"raw_inbound_submission")
+    .select(sorted(base_cols))
+)
+```
+
+#### process_phl
+
+This function takes the tables read from LIMS, transforms them using the transformation functions in `src/package/transformations.py`, and then attempts to match the transformed data to demographics in the WDRS entire table using functions in `src/package/matching.py`.
+
+First transform the records. There's more info on the [transformation functions](../reference/index.qmd) in the reference tab:
+
+```python
+# transformations and qa
+transformed_df = (
+    tf.transform(df=phl_df)
+)
+
+```
+
+The records sent through matching won't contain all columns, just to avoid unnecessarily complicated code. I just want to match the bare minimum data. So, the transformed dataframe is subsetted to `submissions_to_fuzzy` and that is sent to matching. `submissions_to_fuzzy` and other outputs will be joined back to `transformed_df` in order to get all the original columns back.
+
+```{python}
+# only take the names to match. 
+# will join back to transformed_df to get the full data
+submissions_to_fuzzy = (
+    transformed_df
+    .unique(subset=['submission_number'])
+    .select([
+        'submission_number',
+        'internal_create_date',
+        'PatientFirstName',
+        'PatientLastName',
+        'PatientBirthDate',
+        'SpecimenDateCollected'
+    ])
+)
+```
+
+Then the data are run through the matching functions 
+
+```python
+# try to match the records to cases in WDRS
+instance = tp.fuzzy_process(
+        df_pos_sars_cases_inp=self.cases,
+        # df_to_process_inp=received_submissions_df,
+        no_match_df_inp=submissions_to_fuzzy,
+        first_name_ref="FIRST_NAME",
+        last_name_ref="LAST_NAME",
+        dob_ref="PATIENT_DOB",
+        spec_col_date_ref="SPECIMEN__COLLECTION__DTTM",
+        last_name_src="PatientLastName",
+        first_name_src="PatientFirstName",
+        dob_src="PatientBirthDate",
+        spec_col_date_src="SpecimenDateCollected"
+    )
+
+(
+    fuzzy_matched_review_df, 
+    fuzzy_without_demo_df, 
+    fuzzy_matched_none, 
+    fuzzy_matched_roster
+) = instance.fuzzZ()
+
+```
+
+
+now join back to get the transformed columns. Again, this helps with not needing to deal with a ton of columns in the matching process, and it makes the process more generalizable because we don't need to mention pathogen specific columns in the matching functions. 
+
+
+```python
+# get the original transformed columns
+# need these because i want the fuzzy functions to not need to deal with any extra columns
+# things get confusing enough with the columns that fuzzy produces itself, so make it as simple as possible,
+# then join back the original data after.
+# this should help with carrying fuzzy over to other pathogen workflows too
+og_data = (
+    transformed_df
+    .select([
+        'submission_number',
+        # 'internal_create_date', # don't need this since it will get brought in from the other data
+        'WDRS__RESULT',
+        'WDRS__TEST__PERFORMED',
+        'WDRS__SPECIMEN__SOURCE',
+        'WDRS__SPECIMEN__TYPE',
+        'SPECIMEN__TYPE',
+        'SPECIMEN__COLLECTION__DATE',
+        'SUBMITTER',
+        'WDRS__PERFORMING__ORG'
+    ])
+)
+
+# rejoin matches to roster dataframe
+fuzzy_matched_roster = (
+    fuzzy_matched_roster
+    .join(
+        og_data,
+        on='submission_number',
+        how='left'
+    )
+)
+```
+
+#### write_phl
+
+This function writes data to tables via a left outer join. The left join ensures that we don't have duplicates getting appended to the tables.
+
+```python
+if len(received_submissions_df) > 0:
+    # append a copy of these records to received_submissions so we have a raw data snapshot
+    # self.con.sql(f"INSERT INTO received_submissions SELECT * FROM received_submissions_df") 
+
+    self.con.sql(
+        """
+        INSERT INTO received_submissions AS rt
+        SELECT r.*
+        FROM received_submissions_df AS r
+        LEFT OUTER JOIN received_submissions AS rt
+        ON rt.submission_number = r.submission_number
+        WHERE rt.submission_number IS NULL;
+        """
+    )
+
+```
+
+#### rematch
+
+This process reads in the `no_match_tbl` table from our process and tries to rematch them by running the steps above.
+
+It reads `no_match_tbl` where `match_found = FALSE`
+
+```python
+no_match_reprocess = self.con.sql(
+    f'SELECT * FROM no_match_tbl WHERE match_found = FALSE'
+).pl()
+```
+
+After it tries to rematch, if there are matches it will update the `match_found` column to be `TRUE` for the matched rows, and update them in the table. Otherwise it won't write anything.
+
+```python
+# Update the no_match_tbl in duckdb where matches were found
+# I'm too sketched to remove records, so just relabel them as match_found True or False
+if len(rematch_matched_review_df) > 0 or len(rematch_matched_roster) > 0:
+
+    # get a list of previous no_match that had found a match this time around
+    match_found = list(rematch_matched_review_df['submission_number']) + list(rematch_matched_roster['submission_number'])
+    
+    print('Tagging rows from no_match_tbl that did find a match')
+    # mark that the match has been found in the no_match_tbl (im afraid to remove them for record keeping purposes)
+    no_match_df = (
+        no_match_reprocess
+        .with_columns(
+            pl.when(pl.col('submission_number').is_in(match_found))
+            .then(True)
+            .otherwise(False)
+            .alias('match_found')
+        )
+    )
+
+    # temporary register dataframe into duckdb
+    self.con.register('no_match_df', no_match_df)
+
+
+    self.con.sql("""
+        UPDATE no_match_tbl AS t
+        SET match_found = no_match_df.match_found
+        FROM no_match_df
+        WHERE t.submission_number = no_match_df.submission_number 
+    """
+    )
+```
+
+### matching.py
+
+Currently, records are fuzzy matched to WDRS. For details, see [the matching class reference](../reference/fuzzy_process.qmd)
+
+### transformations.py
+
+For a list of transformations and their functions, [see the reference under Transformations](../reference/index.qmd)
+
+### queries
+
+Here's how the data are queried from LIMS:
+
+```{python}
+phl = """
+select [PHLAccessionNumber]
+    ,[PatientWAPHL_ID]
+    ,[PatientFirstName]
+    ,[PatientMiddleInitial]
+    ,[PatientLastName]
+    ,[PatientAddressCity]
+    ,[PatientAddressState]
+    ,[PatientAddressZipcode]
+    ,[PatientAddressCounty]
+    ,[PatientBirthDate]
+    ,[PatientAge]
+    ,[PatientGender]
+    ,[SpecimenDateCollected]
+    ,[SpecimenDateReceived]
+    ,[PatientDateOfOnset]
+    ,[SpecimenSource]
+    ,[SpecimenTestReasonCriteria]
+    ,[SubmitterName]
+    ,[SubmitterCity]
+    ,[SubmitterState]
+    ,[SubmitterZipcode]
+    ,[SubmitterCounty]
+    ,[SubmitterPhone]
+    ,[SubmitterSpecimenNumber]
+    ,[SubmitterPatientNumber]
+    ,[AnalyteSynonym]
+    ,[TestResult] 
+    ,[Ct]
+    ,[ResultTextConclusion]
+    ,[Interpretation]
+    ,[SentToCDC]
+    ,[ApprovalStatus]
+    ,[ReportType]
+    ,[SpecimenDateReleased]
+    from vz_Epi_Micro_Virology_Influenza
+    where SpecimenDateCollected > '2025-01-01'
+"""
+
+```
+
+And from WDRS:
+
+```python
+respnet = """
+    SELECT *
+    FROM DD_GCD_RESPNET_INVESTIGATION
+    WHERE CODE = 'FLUHP';
+"""
+
+# or FLUN
+# change this to FLUHP and FLUN? check for more flu options
+pos_flu_entire_tbl = f"""
+SELECT
+  CASE_ID, 
+  PARTY_EXTERNAL_ID,
+  PATIENT__DATE__OF__BIRTH as PATIENT_DOB, 
+  FIRST_NAME, 
+  LAST_NAME, 
+  FILLER__ORDER__NUM,
+  SPECIMEN__ID__ACCESSION__NUM__MANUAL, 
+  SPECIMEN__COLLECTION__DTTM
+FROM DD_ELR_DD_ENTIRE
+WHERE (CODE IN ('FLUHP','FLUD','FLUN','HFLU')) 
+AND STATUS != '6' 
+AND SPECIMEN__COLLECTION__DTTM > '2025-01-01';
+"""
+
+cases_joined = f"""
+SELECT
+    D.CASE_ID,
+    D.FIRST_NAME,
+    D.LAST_NAME,
+    D.PATIENT__DATE__OF__BIRTH as PATIENT_DOB,
+    DI.SPECIMEN__COLLECTION__DTTM
+FROM
+    DD_ELR_DD_ENTIRE D
+JOIN
+    DD_GCD_RESPNET_INVESTIGATION DI
+ON
+    D.CASE_ID = DI.CASE_ID
+WHERE
+    -- Your filter condition here (optional)
+    DI.CODE = 'FLUHP';
+"""
+```
+
+
+
+

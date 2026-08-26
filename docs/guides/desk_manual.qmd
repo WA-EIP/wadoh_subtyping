@@ -1,0 +1,70 @@
+---
+title: Desk Manual
+description: How to run the process
+date: 2/4/2025
+date-modified: today
+author: frank aragona
+---
+
+:::{.box}
+## **TL;DR** {{< bi journals >}}
+
+This repo has a script called `main.py` that acts as a trigger script. It pulls in all the functions and runs them.
+
+1. read in WDRS data
+2. read in PHL data from LIMS
+3. transform the PHL data
+4. attempt to fuzzy match PHL to WDRS
+5. write outputs to a database
+6. if there are matched records, send a roster to upload to WDRS
+
+For more script details see the [guides doc](overview.qmd)
+
+:::
+
+## Run the process
+
+See [onboarding](onboarding.qmd) for installation and access prereqs.
+
+### Step 1 - run main.py
+
+This project uses the [uv](https://docs.astral.sh/uv/) package manager. To run the pipeline:
+
+```bash
+uv run main.py
+```
+
+It will create a virtual environment and run the process.
+
+### Step 2 - examine outputs
+
+- you should see outputs like this:
+
+```python
+There are 853 submissions being sent to fuzzy matching
+
+
+Success: No data leaks detected. Insert victory cigar
+3 fuzzy matched roster
+0 fuzzy review
+850 no match found
+0 fuzzy without demo
+
+Total unique persons processed:  853 
+
+Appending records into duckdb no_match_tbl
+Appending records into duckdb fuzzy_no_match_tbl
+Appending records into duckdb rostered_tbl
+```
+
+- if not, something failed
+
+### Step 3 - upload roster to WDRS
+
+If data matched, a roster `.csv` will be uploaded to the Y drive and needs to be added to WDRS
+
+- go to `y_drive/Sequence Data and Reporting/respnet/rosters`
+- there will be a file with today's date called `roster_YYYY-MM-DD.csv`
+- upload that to WDRS
+
+
